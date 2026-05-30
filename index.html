@@ -366,17 +366,22 @@
               });
         }
 
-function cekStatusData() {
-            const tglLahir = document.getElementById('searchTglLahir').value;
+        function cekStatusData() {
+            const tglInput = document.getElementById('searchTglLahir').value; // Format asli HTML: YYYY-MM-DD
             const btn = document.getElementById('btnCekStatus');
             const hasilBox = document.getElementById('hasilPencarian');
             
-            if(!tglLahir) return alert("Pilih tanggal lahir dulu!");
+            if(!tglInput) return alert("Pilih tanggal lahir dulu!");
+            
+            // 🛠️ REVISI: Ubah format dari YYYY-MM-DD menjadi DD/MM/YYYY
+            const parts = tglInput.split('-'); // Hasil: ["YYYY", "MM", "DD"]
+            const tglLahir = `${parts[2]}/${parts[1]}/${parts[0]}`; // Hasil: "DD/MM/YYYY"
             
             btn.innerHTML = "Mencari...";
             btn.disabled = true;
-            hasilBox.classList.add('hidden'); // Sembunyikan hasil lama jika ada
+            hasilBox.classList.add('hidden'); 
             
+            // Kirim tanggal yang sudah berformat DD/MM/YYYY ke server
             fetch(`${scriptURL}?action=cekStatus&tgl=${tglLahir}`)
             .then(res => res.json())
             .then(data => {
@@ -384,20 +389,20 @@ function cekStatusData() {
                 btn.disabled = false;
                 
                 if(data.status === 'sukses') {
-                    // Tampilkan kotak hasil pencarian
                     hasilBox.classList.remove('hidden');
                     document.getElementById('resNama').innerText = data.data.nama;
                     document.getElementById('resStatus').innerText = data.data.status_lulus;
                     
                     const pdfBtn = document.getElementById('resPDF');
-                    // Jika data memiliki Link PDF, munculkan tombol download
+                    // Jika link PDF ada di spreadsheet, tampilkan tombol download
                     if(data.data.link_pdf && data.data.link_pdf !== "") {
                         pdfBtn.href = data.data.link_pdf;
                         pdfBtn.style.display = "block";
                         pdfBtn.innerText = "📄 Download PDF Pendaftaran (Siap Download)";
                         pdfBtn.className = "mt-4 block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition";
+                        pdfBtn.onclick = null; // Reset fungsi click
                     } else {
-                        // Jika link PDF belum siap/kosong di spreadsheet
+                        // Jika link PDF masih kosong di spreadsheet
                         pdfBtn.style.display = "block";
                         pdfBtn.href = "#";
                         pdfBtn.innerText = "⚠️ Link PDF belum tersedia / belum digenerate";
@@ -408,7 +413,7 @@ function cekStatusData() {
                     alert("Data tidak ditemukan. Silakan periksa kembali tanggal lahir yang dimasukkan.");
                 }
             }).catch(err => {
-                alert("Gagal terhubung ke server. Pastikan Web App Anda sudah di-deploy ulang sebagai 'Anyone'.");
+                alert("Gagal terhubung ke server.");
                 btn.innerHTML = "Cari Data";
                 btn.disabled = false;
             });
