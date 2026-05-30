@@ -269,35 +269,48 @@
         });
 
         // FUNGSI BARU: Mengambil link dan membuat tombol secara otomatis sesuai nama di Spreadsheet
+       // FUNGSI BARU DENGAN DETEKSI ERROR OTOMATIS
         function ambilKonfigurasiLink() {
-            if (scriptURL === 'https://script.google.com/macros/s/AKfycbyWup5V2zNqJK1UrY8dlHn0lClZg4ClsiUgoC4CKQsR_X159RJ2YU9Ag3EfC14-gywJ/exec' || scriptURL === '') return;
+            const container = document.getElementById('linkContainer');
+
+            // 1. Cek apakah URL masih bawaan contoh
+            if (scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI' || scriptURL === '') {
+                container.innerHTML = '<span class="text-red-500 font-semibold">⚠️ Gagal: Anda belum mengganti scriptURL dengan URL Web App Anda di index.html!</span>';
+                return;
+            }
 
             fetch(`${scriptURL}?action=getConfig`)
                 .then(response => response.json())
                 .then(result => {
+                    // 2. Cek jika Google Script mengirimkan status Sukses
                     if (result.status === 'sukses') {
-                        const container = document.getElementById('linkContainer');
                         container.innerHTML = ''; // Hapus teks loading
                         
-                        // Looping setiap baris yang ada di sheet Config_Info
+                        // Cek jika ternyata baris di spreadsheet masih kosong
+                        if (Object.keys(result.data).length === 0) {
+                            container.innerHTML = '<span class="text-gray-500 italic text-sm">Belum ada data informasi yang diisi di Google Sheets (Tab Config_Info).</span>';
+                            return;
+                        }
+
+                        // Buat tombol otomatis
                         for (const [namaLink, urlLink] of Object.entries(result.data)) {
-                            // Membuat tombol link baru
                             const btn = document.createElement('a');
                             btn.href = urlLink;
                             btn.target = "_blank";
                             btn.className = "bg-emerald-100 text-emerald-800 border border-emerald-500 font-semibold py-3 px-6 rounded-lg text-center hover:bg-emerald-200 transition";
-                            btn.innerText = `📄 ${namaLink}`; // Nama tombol sesuai spreadsheet
+                            btn.innerText = `📄 ${namaLink}`;
                             container.appendChild(btn);
                         }
+                    } else {
+                        // 3. Cek jika Google Script error (Misal: Nama sheet di Google Sheets salah)
+                        container.innerHTML = `<span class="text-red-500 font-semibold">⚠️ Error Google Sheets: ${result.error || 'Gagal mengambil data.'}</span>`;
                     }
                 })
                 .catch(error => {
                     console.error('Gagal memuat link informasi:', error);
-                    document.getElementById('linkContainer').innerHTML = '<span class="text-red-500">Gagal memuat data informasi.</span>';
+                    container.innerHTML = '<span class="text-red-500 font-semibold">⚠️ Gagal terhubung ke server. Pastikan Web App sudah di-deploy sebagai "Anyone" (Siapa saja).</span>';
                 });
-        }
-
-        function openTab(tabName) {
+        }        function openTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
