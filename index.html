@@ -366,29 +366,51 @@
               });
         }
 
-        function cekStatusData() {
+function cekStatusData() {
             const tglLahir = document.getElementById('searchTglLahir').value;
             const btn = document.getElementById('btnCekStatus');
+            const hasilBox = document.getElementById('hasilPencarian');
+            
             if(!tglLahir) return alert("Pilih tanggal lahir dulu!");
             
             btn.innerHTML = "Mencari...";
+            btn.disabled = true;
+            hasilBox.classList.add('hidden'); // Sembunyikan hasil lama jika ada
             
             fetch(`${scriptURL}?action=cekStatus&tgl=${tglLahir}`)
             .then(res => res.json())
             .then(data => {
                 btn.innerHTML = "Cari Data";
+                btn.disabled = false;
+                
                 if(data.status === 'sukses') {
-                    document.getElementById('hasilPencarian').classList.remove('hidden');
+                    // Tampilkan kotak hasil pencarian
+                    hasilBox.classList.remove('hidden');
                     document.getElementById('resNama').innerText = data.data.nama;
                     document.getElementById('resStatus').innerText = data.data.status_lulus;
-                    document.getElementById('resPDF').href = data.data.link_pdf || '#';
+                    
+                    const pdfBtn = document.getElementById('resPDF');
+                    // Jika data memiliki Link PDF, munculkan tombol download
+                    if(data.data.link_pdf && data.data.link_pdf !== "") {
+                        pdfBtn.href = data.data.link_pdf;
+                        pdfBtn.style.display = "block";
+                        pdfBtn.innerText = "📄 Download PDF Pendaftaran (Siap Download)";
+                        pdfBtn.className = "mt-4 block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition";
+                    } else {
+                        // Jika link PDF belum siap/kosong di spreadsheet
+                        pdfBtn.style.display = "block";
+                        pdfBtn.href = "#";
+                        pdfBtn.innerText = "⚠️ Link PDF belum tersedia / belum digenerate";
+                        pdfBtn.className = "mt-4 block text-center bg-gray-400 text-gray-700 font-medium py-3 px-4 rounded-lg cursor-not-allowed";
+                        pdfBtn.onclick = function(e) { e.preventDefault(); alert("File formulir PDF Anda belum selesai diproses atau kolom Link PDF di sheet masih kosong."); };
+                    }
                 } else {
-                    alert("Data tidak ditemukan. Cek kembali tanggal lahir.");
-                    document.getElementById('hasilPencarian').classList.add('hidden');
+                    alert("Data tidak ditemukan. Silakan periksa kembali tanggal lahir yang dimasukkan.");
                 }
             }).catch(err => {
-                alert("Gagal terhubung ke server.");
+                alert("Gagal terhubung ke server. Pastikan Web App Anda sudah di-deploy ulang sebagai 'Anyone'.");
                 btn.innerHTML = "Cari Data";
+                btn.disabled = false;
             });
         }
     </script>
