@@ -1,4 +1,4 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -10,12 +10,11 @@ html_content = """<!DOCTYPE html>
         body { font-family: 'Poppins', sans-serif; background-color: #f0fdf4; }
         .form-section { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 24px; }
         .input-field { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 4px; }
-        .input-field:focus { border-color: #059669; ring-color: #059669; outline: none; }
+        .input-field:focus { border-color: #059669; outline: none; box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2); }
         .tab-btn.active { border-bottom: 4px solid #059669; color: #047857; font-weight: 700; }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        /* Modal Styles */
         #summaryModal, #successModal { display: none; }
     </style>
 </head>
@@ -27,20 +26,20 @@ html_content = """<!DOCTYPE html>
         <p class="text-sm mt-2 text-emerald-100">Tahun Ajaran 1447-1448 H / 2026-2027 M</p>
     </header>
 
-    <nav class="bg-white shadow flex justify-center sticky top-0 z-10">
-        <button onclick="openTab('info')" id="btn-info" class="tab-btn active px-4 md:px-8 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Informasi</button>
-        <button onclick="openTab('form')" id="btn-form" class="tab-btn px-4 md:px-8 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Formulir</button>
-        <button onclick="openTab('status')" id="btn-status" class="tab-btn px-4 md:px-8 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Cek Status</button>
+    <nav class="bg-white shadow flex justify-center sticky top-0 z-10 overflow-x-auto whitespace-nowrap">
+        <button onclick="openTab('info')" id="btn-info" class="tab-btn active px-6 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Informasi</button>
+        <button onclick="openTab('form')" id="btn-form" class="tab-btn px-6 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Formulir</button>
+        <button onclick="openTab('status')" id="btn-status" class="tab-btn px-6 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Cek Status</button>
     </nav>
 
     <main class="max-w-4xl mx-auto p-4 mt-4">
         
         <div id="tab-info" class="tab-content active bg-white p-6 rounded-lg shadow">
             <h3 class="text-2xl font-bold text-emerald-800 mb-4 text-center">Informasi Pendaftaran</h3>
-            <p class="mb-6 text-gray-700 text-center">Selamat datang di portal pendaftaran online Pondok Pesantren Nahdlatul Arifin. Silakan unduh brosur dan rincian pembayaran di bawah ini sebelum mengisi formulir.</p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#" id="linkBrosur" target="_blank" class="bg-emerald-100 text-emerald-800 border border-emerald-500 font-semibold py-3 px-6 rounded-lg text-center hover:bg-emerald-200">📄 Download Brosur</a>
-                <a href="#" id="linkBiaya" target="_blank" class="bg-emerald-100 text-emerald-800 border border-emerald-500 font-semibold py-3 px-6 rounded-lg text-center hover:bg-emerald-200">💳 Rincian Pembayaran</a>
+            <p class="mb-6 text-gray-700 text-center">Selamat datang di portal pendaftaran online Pondok Pesantren Nahdlatul Arifin. Silakan unduh informasi yang diperlukan di bawah ini.</p>
+            
+            <div id="linkContainer" class="flex flex-col md:flex-row flex-wrap gap-4 justify-center">
+                <span class="text-gray-400 italic text-sm">Sedang memuat data informasi...</span>
             </div>
         </div>
 
@@ -61,13 +60,13 @@ html_content = """<!DOCTYPE html>
                                 <option value="PEREMPUAN">PEREMPUAN</option>
                             </select>
                         </div>
-                        <div><label class="block text-sm font-medium text-gray-700">NIK Santri (16 Digit)</label><input type="text" id="NIK Santri" class="input-field" maxlength="16" pattern="\\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 16 digit NIK" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NISN (10 Digit)</label><input type="text" id="NISN" class="input-field" maxlength="10" pattern="\\d{10}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 10 digit NISN"></div>
+                        <div><label class="block text-sm font-medium text-gray-700">NIK Santri (16 Digit)</label><input type="text" id="NIK Santri" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 16 digit NIK" required></div>
+                        <div><label class="block text-sm font-medium text-gray-700">NISN (10 Digit)</label><input type="text" id="NISN" class="input-field" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 10 digit NISN"></div>
                         <div><label class="block text-sm font-medium text-gray-700">Anak Ke-</label><input type="number" id="Anak Ke-" class="input-field" min="1" required></div>
                         <div><label class="block text-sm font-medium text-gray-700">Jumlah Saudara</label><input type="number" id="Jumlah Saudara" class="input-field" min="0" required></div>
                         <div><label class="block text-sm font-medium text-gray-700">E-mail Aktif</label><input type="email" id="E-mail Aktif" class="input-field"></div>
                         <div><label class="block text-sm font-medium text-gray-700">NO KIP (Jika Ada)</label><input type="text" id="NO KIP" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Nomor KK (16 Digit)</label><input type="text" id="Nomor KK" class="input-field" maxlength="16" pattern="\\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 16 digit No KK" required></div>
+                        <div><label class="block text-sm font-medium text-gray-700">Nomor KK (16 Digit)</label><input type="text" id="Nomor KK" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 16 digit No KK" required></div>
                     </div>
                     
                     <h4 class="font-semibold text-emerald-700 mt-6 mb-2 border-t pt-4">Alamat Santri</h4>
@@ -127,7 +126,7 @@ html_content = """<!DOCTYPE html>
                     <h3 class="text-xl font-semibold text-emerald-800 mb-4 border-b pb-2">Data Sekolah Asal</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Nama Sekolah Asal</label><input type="text" id="Nama Sekolah Asal" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Tahun Lulus</label><input type="number" id="Tahun Lulus" class="input-field" min="2000" max="2030"></div>
+                        <div><label class="block text-sm font-medium text-gray-700">Tahun Lulus</label><input type="number" id="Tahun Lulus" class="input-field"></div>
                         <div><label class="block text-sm font-medium text-gray-700">NPSN Sekolah Asal</label><input type="text" id="NPSN Sekolah Asal" class="input-field"></div>
                     </div>
                 </div>
@@ -138,7 +137,7 @@ html_content = """<!DOCTYPE html>
                     <h4 class="font-semibold text-emerald-700 mb-2">Data Ayah</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div><label class="block text-sm font-medium text-gray-700">Nama Ayah</label><input type="text" id="Nama Ayah" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NIK Ayah (16 Digit)</label><input type="text" id="NIK Ayah" class="input-field" maxlength="16" pattern="\\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
+                        <div><label class="block text-sm font-medium text-gray-700">NIK Ayah (16 Digit)</label><input type="text" id="NIK Ayah" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
                         <div><label class="block text-sm font-medium text-gray-700">Status Ayah</label>
                             <select id="Status Ayah" class="input-field" required>
                                 <option value="">-- Pilih --</option>
@@ -146,32 +145,23 @@ html_content = """<!DOCTYPE html>
                                 <option value="SUDAH MENINGGAL">SUDAH MENINGGAL</option>
                             </select>
                         </div>
-                        <div><label class="block text-sm font-medium text-gray-700">TTL Ayah (Contoh: Jember, 12-08-1980)</label><input type="text" id="TTL Ayah" class="input-field"></div>
+                        <div><label class="block text-sm font-medium text-gray-700">TTL Ayah</label><input type="text" id="TTL Ayah" class="input-field"></div>
                         <div><label class="block text-sm font-medium text-gray-700">Pendidikan Ayah</label>
                             <select id="Pendidikan Ayah" class="input-field">
                                 <option value="">-- Pilih --</option>
-                                <option value="SD SEDERAJAT">SD SEDERAJAT</option>
-                                <option value="SMP SEDERAJAT">SMP SEDERAJAT</option>
-                                <option value="SMA SEDERAJAT">SMA SEDERAJAT</option>
-                                <option value="S1">S1</option>
-                                <option value="S2">S2</option>
-                                <option value="S3">S3</option>
-                                <option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
+                                <option value="SD SEDERAJAT">SD SEDERAJAT</option><option value="SMP SEDERAJAT">SMP SEDERAJAT</option>
+                                <option value="SMA SEDERAJAT">SMA SEDERAJAT</option><option value="S1">S1</option>
+                                <option value="S2">S2</option><option value="S3">S3</option><option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
                             </select>
                         </div>
                         <div><label class="block text-sm font-medium text-gray-700">Pekerjaan Ayah</label>
                             <select id="Pekerjaan Ayah" class="input-field">
                                 <option value="">-- Pilih --</option>
-                                <option value="Petani">Petani</option>
-                                <option value="Nelayan">Nelayan</option>
-                                <option value="Karyawan Swasta">Karyawan Swasta</option>
-                                <option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
-                                <option value="Wiraswasta / Pengusaha">Wiraswasta / Pengusaha</option>
-                                <option value="Buruh / Pekerja Lepas">Buruh / Pekerja Lepas</option>
-                                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
-                                <option value="Tenaga Medis">Tenaga Medis</option>
-                                <option value="Guru / Dosen">Guru / Dosen</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="Petani">Petani</option><option value="Nelayan">Nelayan</option>
+                                <option value="Karyawan Swasta">Karyawan Swasta</option><option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
+                                <option value="Wiraswasta / Pengusaha">Wiraswasta / Pengusaha</option><option value="Buruh / Pekerja Lepas">Buruh / Pekerja Lepas</option>
+                                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option><option value="Tenaga Medis">Tenaga Medis</option>
+                                <option value="Guru / Dosen">Guru / Dosen</option><option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                     </div>
@@ -179,7 +169,7 @@ html_content = """<!DOCTYPE html>
                     <h4 class="font-semibold text-emerald-700 mb-2 border-t pt-4">Data Ibu</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div><label class="block text-sm font-medium text-gray-700">Nama Ibu</label><input type="text" id="Nama Ibu" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NIK Ibu (16 Digit)</label><input type="text" id="NIK Ibu" class="input-field" maxlength="16" pattern="\\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
+                        <div><label class="block text-sm font-medium text-gray-700">NIK Ibu (16 Digit)</label><input type="text" id="NIK Ibu" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
                         <div><label class="block text-sm font-medium text-gray-700">Status Ibu</label>
                             <select id="Status Ibu" class="input-field" required>
                                 <option value="">-- Pilih --</option>
@@ -191,35 +181,26 @@ html_content = """<!DOCTYPE html>
                         <div><label class="block text-sm font-medium text-gray-700">Pendidikan Ibu</label>
                             <select id="Pendidikan Ibu" class="input-field">
                                 <option value="">-- Pilih --</option>
-                                <option value="SD SEDERAJAT">SD SEDERAJAT</option>
-                                <option value="SMP SEDERAJAT">SMP SEDERAJAT</option>
-                                <option value="SMA SEDERAJAT">SMA SEDERAJAT</option>
-                                <option value="S1">S1</option>
-                                <option value="S2">S2</option>
-                                <option value="S3">S3</option>
-                                <option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
+                                <option value="SD SEDERAJAT">SD SEDERAJAT</option><option value="SMP SEDERAJAT">SMP SEDERAJAT</option>
+                                <option value="SMA SEDERAJAT">SMA SEDERAJAT</option><option value="S1">S1</option>
+                                <option value="S2">S2</option><option value="S3">S3</option><option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
                             </select>
                         </div>
                         <div><label class="block text-sm font-medium text-gray-700">Pekerjaan Ibu</label>
                             <select id="Pekerjaan Ibu" class="input-field">
                                 <option value="">-- Pilih --</option>
-                                <option value="Petani">Petani</option>
-                                <option value="Nelayan">Nelayan</option>
-                                <option value="Karyawan Swasta">Karyawan Swasta</option>
-                                <option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
-                                <option value="Wiraswasta / Pengusaha">Wiraswasta / Pengusaha</option>
-                                <option value="Buruh / Pekerja Lepas">Buruh / Pekerja Lepas</option>
-                                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option>
-                                <option value="Tenaga Medis">Tenaga Medis</option>
-                                <option value="Guru / Dosen">Guru / Dosen</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="Petani">Petani</option><option value="Nelayan">Nelayan</option>
+                                <option value="Karyawan Swasta">Karyawan Swasta</option><option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
+                                <option value="Wiraswasta / Pengusaha">Wiraswasta / Pengusaha</option><option value="Buruh / Pekerja Lepas">Buruh / Pekerja Lepas</option>
+                                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option><option value="Tenaga Medis">Tenaga Medis</option>
+                                <option value="Guru / Dosen">Guru / Dosen</option><option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                     </div>
 
                     <h4 class="font-semibold text-emerald-700 mt-6 mb-2 border-t pt-4">Kontak & Alamat Orang Tua</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-medium text-gray-700">No. HP/WA Orang Tua Aktif</label><input type="text" id="No. HP/WA Orang Tua Aktif" class="input-field" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Contoh: 081234567890" required></div>
+                        <div><label class="block text-sm font-medium text-gray-700">No. HP/WA Orang Tua Aktif</label><input type="text" id="No. HP/WA Orang Tua Aktif" class="input-field" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
                         <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Alamat Lengkap Orang Tua</label><textarea id="Alamat Lengkap Orang Tua" class="input-field" rows="2" required></textarea></div>
                         <div><label class="block text-sm font-medium text-gray-700">Kecamatan (Ortu)</label><input type="text" id="Alamat Lengkap Ortu- Kecamatan" class="input-field" required></div>
                         <div><label class="block text-sm font-medium text-gray-700">Kabupaten (Ortu)</label><input type="text" id="Alamat Lengkap Ortu - Kabupaten" class="input-field" required></div>
@@ -227,7 +208,7 @@ html_content = """<!DOCTYPE html>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition">
+                <button type="submit" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-lg shadow-lg transition">
                     Review Formulir
                 </button>
             </form>
@@ -240,6 +221,7 @@ html_content = """<!DOCTYPE html>
                 <input type="date" id="searchTglLahir" class="input-field">
                 <button onclick="cekStatusData()" id="btnCekStatus" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition">Cari Data</button>
             </div>
+            
             <div id="hasilPencarian" class="mt-6 hidden p-4 border border-emerald-200 bg-emerald-50 rounded-lg text-left">
                 <p><strong>Nama:</strong> <span id="resNama">-</span></p>
                 <p><strong>Status:</strong> <span id="resStatus" class="text-emerald-700 font-bold">-</span></p>
@@ -257,12 +239,8 @@ html_content = """<!DOCTYPE html>
             <div class="p-4 overflow-y-auto flex-grow text-sm" id="summaryContent">
                 </div>
             <div class="p-4 border-t border-gray-200 flex flex-col md:flex-row gap-3 justify-end bg-gray-50 rounded-b-lg">
-                <button type="button" onclick="hideSummary()" class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition">
-                    Edit Formulir
-                </button>
-                <button type="button" onclick="submitData()" id="btnSubmit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg flex justify-center items-center transition">
-                    Yakin, Lanjut dan Kirim
-                </button>
+                <button type="button" onclick="hideSummary()" class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition">Edit Formulir</button>
+                <button type="button" onclick="submitData()" id="btnSubmit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg flex justify-center items-center transition">Yakin, Lanjut dan Kirim</button>
             </div>
         </div>
     </div>
@@ -273,60 +251,63 @@ html_content = """<!DOCTYPE html>
                 <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <h3 class="text-2xl font-bold text-gray-800 mb-2">Pendaftaran Berhasil!</h3>
-            <p class="text-gray-600 mb-6 leading-relaxed">
-                Selamat Anda Telah Terdaftar di Pendaftaran Santri Baru Pondok Pesantren Nahdlatul Arifin Tahun Ajaran 1447-1448 H / 2026-2027 M. Untuk selanjutnya silahkan unduh bukti pendaftaran anda di bawah ini.
-            </p>
-            <a href="#" id="downloadPdfBtn" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg mb-3 transition">
-                Download Bukti Pendaftaran (PDF)
-            </a>
+            <p class="text-gray-600 mb-6 leading-relaxed">Selamat Anda Telah Terdaftar di Pendaftaran Santri Baru Pondok Pesantren Nahdlatul Arifin Tahun Ajaran 1447-1448 H / 2026-2027 M.</p>
+            <a href="#" id="downloadPdfBtn" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg mb-3 transition">Download Bukti Pendaftaran (PDF)</a>
             <button onclick="window.location.reload()" class="text-emerald-600 underline text-sm hover:text-emerald-700">Kembali ke Beranda</button>
         </div>
     </div>
 
     <script>
-        // URL DATABASE GOOGLE SHEETS ANDA (DAPATKAN DARI LANGKAH APPS SCRIPT)
+        // -------------------------------------------------------------
+        // PASTE URL WEB APP ANDA DI DALAM TANDA KUTIP DI BAWAH INI:
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyWup5V2zNqJK1UrY8dlHn0lClZg4ClsiUgoC4CKQsR_X159RJ2YU9Ag3EfC14-gywJ/exec'; 
+        // -------------------------------------------------------------
 
-        // Fungsi Otomatis saat halaman dimuat
+        // Menjalankan fungsi otomatis saat website dibuka
         document.addEventListener("DOMContentLoaded", function() {
             ambilKonfigurasiLink();
         });
 
-        // Fungsi mengambil link Brosur & Biaya dari Google Sheets (Tab Informasi)
+        // FUNGSI BARU: Mengambil link dan membuat tombol secara otomatis sesuai nama di Spreadsheet
         function ambilKonfigurasiLink() {
-            if (scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI' || scriptURL === '') return;
+            if (scriptURL === 'https://script.google.com/macros/s/AKfycbyWup5V2zNqJK1UrY8dlHn0lClZg4ClsiUgoC4CKQsR_X159RJ2YU9Ag3EfC14-gywJ/exec' || scriptURL === '') return;
 
             fetch(`${scriptURL}?action=getConfig`)
                 .then(response => response.json())
                 .then(result => {
                     if (result.status === 'sukses') {
-                        if (result.data["Brosur"]) {
-                            document.getElementById('linkBrosur').href = result.data["Brosur"];
-                        }
-                        if (result.data["Rincian"]) {
-                            document.getElementById('linkBiaya').href = result.data["Rincian"];
+                        const container = document.getElementById('linkContainer');
+                        container.innerHTML = ''; // Hapus teks loading
+                        
+                        // Looping setiap baris yang ada di sheet Config_Info
+                        for (const [namaLink, urlLink] of Object.entries(result.data)) {
+                            // Membuat tombol link baru
+                            const btn = document.createElement('a');
+                            btn.href = urlLink;
+                            btn.target = "_blank";
+                            btn.className = "bg-emerald-100 text-emerald-800 border border-emerald-500 font-semibold py-3 px-6 rounded-lg text-center hover:bg-emerald-200 transition";
+                            btn.innerText = `📄 ${namaLink}`; // Nama tombol sesuai spreadsheet
+                            container.appendChild(btn);
                         }
                     }
                 })
-                .catch(error => console.error('Gagal memuat link informasi:', error));
+                .catch(error => {
+                    console.error('Gagal memuat link informasi:', error);
+                    document.getElementById('linkContainer').innerHTML = '<span class="text-red-500">Gagal memuat data informasi.</span>';
+                });
         }
 
-        // Fungsi Pindah Tab
         function openTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
             document.getElementById('tab-' + tabName).classList.add('active');
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // Data Global untuk menyimpan form sebelum di-submit
         let formDataObj = {};
 
-        // 1. Fungsi menampilkan pop up ringkasan (Review Form)
         function showSummary(event) {
             event.preventDefault(); 
-            
             const form = document.getElementById('psbForm');
             const inputs = form.querySelectorAll('input, select, textarea');
             let summaryHTML = '<table class="w-full text-left border-collapse">';
@@ -343,20 +324,17 @@ html_content = """<!DOCTYPE html>
                 }
             });
             summaryHTML += '</table>';
-            
             document.getElementById('summaryContent').innerHTML = summaryHTML;
             document.getElementById('summaryModal').style.display = 'flex';
         }
 
-        // 2. Fungsi menyembunyikan pop up / kembali edit
         function hideSummary() {
             document.getElementById('summaryModal').style.display = 'none';
         }
 
-        // 3. Fungsi Submit ke Google Apps Script (POST)
         function submitData() {
             const btnSubmit = document.getElementById('btnSubmit');
-            btnSubmit.innerHTML = 'Sedang Mengirim... <svg class="animate-spin ml-2 h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+            btnSubmit.innerHTML = 'Sedang Mengirim...';
             btnSubmit.disabled = true;
 
             fetch(scriptURL, { method: 'POST', body: JSON.stringify(formDataObj) })
@@ -366,19 +344,15 @@ html_content = """<!DOCTYPE html>
                   btnSubmit.disabled = false;
                   document.getElementById('summaryModal').style.display = 'none';
                   document.getElementById('successModal').style.display = 'flex';
-                  if(data.pdf_link) {
-                      document.getElementById('downloadPdfBtn').href = data.pdf_link;
-                  }
+                  if(data.pdf_link) { document.getElementById('downloadPdfBtn').href = data.pdf_link; }
               })
               .catch(error => {
-                  alert('Gagal mengirim data. Coba lagi nanti.');
-                  console.error('Error!', error.message);
+                  alert('Gagal mengirim data. Pastikan URL Web App sudah benar.');
                   btnSubmit.innerHTML = 'Yakin, Lanjut dan Kirim';
                   btnSubmit.disabled = false;
               });
         }
 
-        // 4. Fungsi Cek Status (GET)
         function cekStatusData() {
             const tglLahir = document.getElementById('searchTglLahir').value;
             const btn = document.getElementById('btnCekStatus');
@@ -396,7 +370,7 @@ html_content = """<!DOCTYPE html>
                     document.getElementById('resStatus').innerText = data.data.status_lulus;
                     document.getElementById('resPDF').href = data.data.link_pdf || '#';
                 } else {
-                    alert("Data santri tidak ditemukan atau belum diverifikasi.");
+                    alert("Data tidak ditemukan. Cek kembali tanggal lahir.");
                     document.getElementById('hasilPencarian').classList.add('hidden');
                 }
             }).catch(err => {
@@ -406,9 +380,4 @@ html_content = """<!DOCTYPE html>
         }
     </script>
 </body>
-</html>"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print("File index.html generated successfully.")
+</html>
