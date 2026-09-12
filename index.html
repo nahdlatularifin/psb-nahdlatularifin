@@ -1,434 +1,1626 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full bg-slate-900">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSB Pondok Pesantren Nahdlatul Arifin</title>
+    <title>Sistem Informasi Persuratan - MA Nahdlatul Arifin</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            colors: {
+              brand: {
+                50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e'
+              }
+            }
+          }
+        }
+      }
+    </script>
+
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f0fdf4; }
-        .form-section { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 24px; }
-        .input-field { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 4px; }
-        .input-field:focus { border-color: #059669; outline: none; box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2); }
-        .tab-btn.active { border-bottom: 4px solid #059669; color: #047857; font-weight: 700; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        #summaryModal, #successModal { display: none; }
+      .custom-card {
+        background: #ffffff;
+        border: 2px solid #cbd5e1;
+      }
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: #e2e8f0; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="h-full font-sans text-slate-800 bg-slate-100 antialiased selection:bg-teal-600 selection:text-white flex flex-col min-h-screen">
 
-    <header class="bg-emerald-700 text-white p-6 text-center shadow-md">
-        <h1 class="text-2xl md:text-3xl font-bold">Penerimaan Santri Baru</h1>
-        <h2 class="text-lg md:text-xl mt-1">Pondok Pesantren Nahdlatul Arifin</h2>
-        <p class="text-sm mt-2 text-emerald-100">Tahun Ajaran 1447-1448 H / 2026-2027 M</p>
-    </header>
+    <!-- CONFIGURATION & APP STATE (GLOBAL) -->
+    <script>
+      const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyPQomErCCH2assyZtylhpgG6TLfHKWq20tVGl-Ec_Td86SXYsiyWuK08Q5hi3r5LeB/exec"; 
+    </script>
 
-    <nav class="bg-white shadow flex justify-center sticky top-0 z-10 overflow-x-auto whitespace-nowrap">
-        <button onclick="openTab('info')" id="btn-info" class="tab-btn active px-6 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Informasi</button>
-        <button onclick="openTab('form')" id="btn-form" class="tab-btn px-6 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Formulir</button>
-        <button onclick="openTab('status')" id="btn-status" class="tab-btn px-6 py-4 text-gray-600 font-medium hover:text-emerald-700 transition">Cek Status</button>
-    </nav>
-
-    <main class="max-w-4xl mx-auto p-4 mt-4">
-        
-        <div id="tab-info" class="tab-content active bg-white p-6 rounded-lg shadow">
-            <h3 class="text-2xl font-bold text-emerald-800 mb-4 text-center">Informasi Pendaftaran</h3>
-            <p class="mb-6 text-gray-700 text-center">Selamat datang di portal pendaftaran online Pondok Pesantren Nahdlatul Arifin. Silakan unduh informasi yang diperlukan di bawah ini.</p>
-            
-            <div id="linkContainer" class="flex flex-col md:flex-row flex-wrap gap-4 justify-center">
-                <span class="text-gray-400 italic text-sm">Sedang memuat data informasi...</span>
+    <!-- Global Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl border-2 border-slate-300 flex flex-col items-center space-y-4 max-w-xs w-full">
+            <div class="relative w-12 h-12">
+                <div class="absolute inset-0 rounded-full border-4 border-teal-200 animate-ping"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-teal-600 border-t-transparent animate-spin"></div>
             </div>
+            <p id="loadingText" class="text-sm font-bold text-slate-800 text-center">Memproses data...</p>
         </div>
+    </div>
 
-        <div id="tab-form" class="tab-content">
-            <h3 class="text-2xl font-bold text-emerald-800 mb-4 text-center">Formulir Santri Baru</h3>
-            <form id="psbForm" onsubmit="showSummary(event)">
-                
-                <div class="form-section border-t-4 border-emerald-600">
-                    <h3 class="text-xl font-semibold text-emerald-800 mb-4 border-b pb-2">Identitas Santri</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-medium text-gray-700">Nama Lengkap</label><input type="text" id="Nama Lengkap" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Tempat Lahir</label><input type="text" id="Tempat Lahir" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label><input type="date" id="Tanggal Lahir" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
-                            <select id="Jenis Kelamin" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="LAKI-LAKI">LAKI-LAKI</option>
-                                <option value="PEREMPUAN">PEREMPUAN</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">NIK Santri (16 Digit)</label><input type="text" id="NIK Santri" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 16 digit NIK" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NISN (10 Digit)</label><input type="text" id="NISN" class="input-field" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 10 digit NISN"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Anak Ke-</label><input type="number" id="Anak Ke-" class="input-field" min="1" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Jumlah Saudara</label><input type="number" id="Jumlah Saudara" class="input-field" min="0" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">E-mail Aktif</label><input type="email" id="E-mail Aktif" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NO KIP (Jika Ada)</label><input type="text" id="NO KIP" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Nomor KK (16 Digit)</label><input type="text" id="Nomor KK" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="Masukkan 16 digit No KK" required></div>
-                    </div>
-                    
-                    <h4 class="font-semibold text-emerald-700 mt-6 mb-2 border-t pt-4">Alamat Santri</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Alamat Lengkap (Jalan/Dusun/RT/RW)</label><textarea id="Alamat Lengkap" class="input-field" rows="2" required></textarea></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Kecamatan</label><input type="text" id="AlamatLengkap - Kecamatan" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Kabupaten</label><input type="text" id="AlamatLengkap - Kabupaten" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Provinsi</label><input type="text" id="AlamatLengkap - Provinsi" class="input-field" required></div>
+    <!-- Notification Toast Container -->
+    <div id="toastContainer" class="fixed top-20 right-5 z-50 flex flex-col space-y-3 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- 1. HALAMAN LOGIN -->
+    <div id="loginView" class="min-h-screen flex items-center justify-center p-4 bg-slate-900">
+        <div class="bg-white max-w-md w-full p-8 rounded-3xl shadow-2xl border-2 border-slate-300 space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 bg-teal-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-teal-600/30">
+                    <i data-lucide="file-text" class="w-8 h-8 text-white"></i>
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Persuratan MA</h2>
+                <p class="text-xs text-slate-600 uppercase tracking-widest font-bold">MA Nahdlatul Arifin</p>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Username</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="w-5 h-5 absolute left-3 top-2.5 text-slate-500"></i>
+                        <input type="text" id="loginUsername" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all text-sm font-medium text-slate-900 placeholder-slate-400" placeholder="Masukkan username">
                     </div>
                 </div>
-
-                <div class="form-section border-t-4 border-emerald-600">
-                    <h3 class="text-xl font-semibold text-emerald-800 mb-4 border-b pb-2">Pilihan Jenjang & Asrama</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-medium text-gray-700">Pilih Asrama/Komplek</label>
-                            <select id="Pilih Asrama/Komplek" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="PUTRA">PUTRA</option>
-                                <option value="PUTRI INDUK">PUTRI INDUK</option>
-                                <option value="PUTRI PPTQ">PUTRI PPTQ</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">Mendaftar di Jenjang</label>
-                            <select id="Mendaftar di Jenjang" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="SD/MI">SD/MI</option>
-                                <option value="MTS">MTS</option>
-                                <option value="MA">MA</option>
-                                <option value="NON FORMAL/KULIAH">NON FORMAL/KULIAH</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">Mendaftar di Kelas</label>
-                            <select id="Mendaftar di Kelas" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="KELAS 1-6 SD/MI">KELAS 1-6 SD/MI</option>
-                                <option value="KELAS 7">KELAS 7</option>
-                                <option value="KELAS 8">KELAS 8</option>
-                                <option value="KELAS 9">KELAS 9</option>
-                                <option value="KELAS 10">KELAS 10</option>
-                                <option value="KELAS 11">KELAS 11</option>
-                                <option value="KELAS 12">KELAS 12</option>
-                                <option value="NON FORMAL">NON FORMAL</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">Status Sekolah Formal</label>
-                            <select id="Status Sekolah Formal" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="SISWA BARU">SISWA BARU</option>
-                                <option value="SISWA PINDAHAN">SISWA PINDAHAN</option>
-                                <option value="NON FORMAL">NON FORMAL</option>
-                            </select>
-                        </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Password</label>
+                    <div class="relative">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-3 top-2.5 text-slate-500"></i>
+                        <input type="password" id="loginPassword" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all text-sm font-medium text-slate-900 placeholder-slate-400" placeholder="••••••••">
                     </div>
                 </div>
-
-                <div class="form-section border-t-4 border-emerald-600">
-                    <h3 class="text-xl font-semibold text-emerald-800 mb-4 border-b pb-2">Data Sekolah Asal</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Nama Sekolah Asal</label><input type="text" id="Nama Sekolah Asal" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Tahun Lulus</label><input type="number" id="Tahun Lulus" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NPSN Sekolah Asal</label><input type="text" id="NPSN Sekolah Asal" class="input-field"></div>
-                    </div>
-                </div>
-
-                <div class="form-section border-t-4 border-emerald-600">
-                    <h3 class="text-xl font-semibold text-emerald-800 mb-4 border-b pb-2">Identitas Orang Tua</h3>
-                    
-                    <h4 class="font-semibold text-emerald-700 mb-2">Data Ayah</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div><label class="block text-sm font-medium text-gray-700">Nama Ayah</label><input type="text" id="Nama Ayah" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NIK Ayah (16 Digit)</label><input type="text" id="NIK Ayah" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Status Ayah</label>
-                            <select id="Status Ayah" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="MASIH HIDUP">MASIH HIDUP</option>
-                                <option value="SUDAH MENINGGAL">SUDAH MENINGGAL</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">TTL Ayah</label><input type="text" id="TTL Ayah" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Pendidikan Ayah</label>
-                            <select id="Pendidikan Ayah" class="input-field">
-                                <option value="">-- Pilih --</option>
-                                <option value="SD SEDERAJAT">SD SEDERAJAT</option><option value="SMP SEDERAJAT">SMP SEDERAJAT</option>
-                                <option value="SMA SEDERAJAT">SMA SEDERAJAT</option><option value="S1">S1</option>
-                                <option value="S2">S2</option><option value="S3">S3</option><option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">Pekerjaan Ayah</label>
-                            <select id="Pekerjaan Ayah" class="input-field">
-                                <option value="">-- Pilih --</option>
-                                <option value="Petani">Petani</option><option value="Nelayan">Nelayan</option>
-                                <option value="Karyawan Swasta">Karyawan Swasta</option><option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
-                                <option value="Wiraswasta / Pengusaha">Wiraswasta / Pengusaha</option><option value="Buruh / Pekerja Lepas">Buruh / Pekerja Lepas</option>
-                                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option><option value="Tenaga Medis">Tenaga Medis</option>
-                                <option value="Guru / Dosen">Guru / Dosen</option><option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <h4 class="font-semibold text-emerald-700 mb-2 border-t pt-4">Data Ibu</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div><label class="block text-sm font-medium text-gray-700">Nama Ibu</label><input type="text" id="Nama Ibu" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">NIK Ibu (16 Digit)</label><input type="text" id="NIK Ibu" class="input-field" maxlength="16" pattern="\d{16}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Status Ibu</label>
-                            <select id="Status Ibu" class="input-field" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="MASIH HIDUP">MASIH HIDUP</option>
-                                <option value="SUDAH MENINGGAL">SUDAH MENINGGAL</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">TTL Ibu</label><input type="text" id="TTL Ibu" class="input-field"></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Pendidikan Ibu</label>
-                            <select id="Pendidikan Ibu" class="input-field">
-                                <option value="">-- Pilih --</option>
-                                <option value="SD SEDERAJAT">SD SEDERAJAT</option><option value="SMP SEDERAJAT">SMP SEDERAJAT</option>
-                                <option value="SMA SEDERAJAT">SMA SEDERAJAT</option><option value="S1">S1</option>
-                                <option value="S2">S2</option><option value="S3">S3</option><option value="TIDAK SEKOLAH">TIDAK SEKOLAH</option>
-                            </select>
-                        </div>
-                        <div><label class="block text-sm font-medium text-gray-700">Pekerjaan Ibu</label>
-                            <select id="Pekerjaan Ibu" class="input-field">
-                                <option value="">-- Pilih --</option>
-                                <option value="Petani">Petani</option><option value="Nelayan">Nelayan</option>
-                                <option value="Karyawan Swasta">Karyawan Swasta</option><option value="Pegawai Negeri Sipil (PNS)">Pegawai Negeri Sipil (PNS)</option>
-                                <option value="Wiraswasta / Pengusaha">Wiraswasta / Pengusaha</option><option value="Buruh / Pekerja Lepas">Buruh / Pekerja Lepas</option>
-                                <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option><option value="Tenaga Medis">Tenaga Medis</option>
-                                <option value="Guru / Dosen">Guru / Dosen</option><option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <h4 class="font-semibold text-emerald-700 mt-6 mb-2 border-t pt-4">Kontak & Alamat Orang Tua</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-sm font-medium text-gray-700">No. HP/WA Orang Tua Aktif</label><input type="text" id="No. HP/WA Orang Tua Aktif" class="input-field" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required></div>
-                        <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Alamat Lengkap Orang Tua</label><textarea id="Alamat Lengkap Orang Tua" class="input-field" rows="2" required></textarea></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Kecamatan (Ortu)</label><input type="text" id="Alamat Lengkap Ortu- Kecamatan" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Kabupaten (Ortu)</label><input type="text" id="Alamat Lengkap Ortu - Kabupaten" class="input-field" required></div>
-                        <div><label class="block text-sm font-medium text-gray-700">Provinsi (Ortu)</label><input type="text" id="Alamat Lengkap Ortu- Provinsi" class="input-field" required></div>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-lg shadow-lg transition">
-                    Review Formulir
+                <button type="submit" id="btnLoginSubmit" class="w-full py-3 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white rounded-xl font-bold shadow-lg shadow-teal-600/30 transition-all flex items-center justify-center space-x-2">
+                    <span id="btnLoginText">Masuk ke Sistem</span>
+                    <i id="btnLoginIcon" data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </form>
-        </div>
 
-        <div id="tab-status" class="tab-content bg-white p-6 rounded-lg shadow text-center">
-            <h3 class="text-2xl font-bold text-emerald-800 mb-4">Cek Status Pendaftaran</h3>
-            <p class="mb-4 text-gray-600">Masukkan Tanggal Lahir pendaftar untuk mengecek status dan mengunduh formulir PDF.</p>
-            <div class="max-w-md mx-auto flex flex-col gap-3">
-                <input type="date" id="searchTglLahir" class="input-field">
-                <button onclick="cekStatusData()" id="btnCekStatus" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition">Cari Data</button>
+            <div class="text-center text-xs font-semibold text-slate-500 space-y-1 border-t border-slate-200 pt-4">
+                <p>Sistem Informasi Persuratan Terpadu &copy; 2026</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight">(APLIKASI INI DIBUAT DAN DIKEMBANGKAN OLEH NUR M. IKBALILMAROM, S.Pd., M.Pd)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN DASHBOARD APP -->
+    <div id="appView" class="hidden min-h-screen flex flex-col bg-slate-100">
+        <!-- Header Navigasi -->
+        <header class="bg-slate-900 sticky top-0 z-40 border-b-2 border-slate-700 text-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center text-slate-900 font-bold shadow-md">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-base font-extrabold text-white leading-tight">MA Nahdlatul Arifin</h1>
+                        <p class="text-xs text-slate-300 font-medium">Persuratan & Pengarsipan Digital</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <button onclick="syncSpreadsheetData()" title="Muat Ulang / Refresh Data Google Spreadsheet" class="flex items-center space-x-1.5 px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 text-white rounded-lg text-xs font-bold border border-emerald-500 shadow-sm transition-all">
+                        <i id="syncIcon" data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                        <span class="hidden sm:inline">Sync Sheets</span>
+                    </button>
+
+                    <div class="text-right hidden sm:block">
+                        <p id="userDisplayName" class="text-sm font-bold text-white">-</p>
+                        <span id="userRoleBadge" class="inline-block px-2 py-0.5 text-[10px] font-extrabold rounded-md bg-teal-400 text-slate-900 uppercase tracking-wider">-</span>
+                    </div>
+                    <button onclick="logout()" title="Keluar" class="p-2 text-slate-300 hover:text-white hover:bg-red-600 rounded-xl transition-all">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </button>
+                </div>
             </div>
             
-            <div id="hasilPencarian" class="mt-6 hidden p-6 border-2 border-emerald-300 bg-emerald-50 rounded-xl text-left shadow-inner max-w-xl mx-auto leading-relaxed">
-                <p class="font-semibold text-emerald-800 text-center text-sm md:text-base mb-4 bg-emerald-100 p-3 rounded-lg border border-emerald-200">
-                    🎉 Selamat anda telah terdaftar di Pondok Pesantren Nahdlatul Arifin sebagai Santri Baru di Tahun Ajaran 1447-1448 H / 2026-2027 M
-                </p>
-                <p class="font-bold text-gray-700 mb-2">Data Anda adalah :</p>
+            <!-- Menu Navigasi -->
+            <div class="bg-slate-800 border-t border-slate-700 px-4 sm:px-6 lg:px-8 py-2">
+                <nav class="max-w-7xl mx-auto flex space-x-2 overflow-x-auto custom-scrollbar">
+                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active-tab flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('surat-masuk')" id="tab-surat-masuk" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
+                        <i data-lucide="inbox" class="w-4 h-4"></i>
+                        <span>Surat Masuk</span>
+                    </button>
+                    <button onclick="switchTab('surat-keluar')" id="tab-surat-keluar" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        <span>Surat Keluar</span>
+                    </button>
+                    <button onclick="switchTab('surat-sk')" id="tab-surat-sk" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
+                        <i data-lucide="award" class="w-4 h-4"></i>
+                        <span>SK</span>
+                    </button>
+                    <button onclick="switchTab('generator')" id="tab-generator" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
+                        <i data-lucide="file-plus" class="w-4 h-4"></i>
+                        <span>Buat Surat</span>
+                    </button>
+                    <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                        <span>Pengaturan</span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Layout Body -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+            <!-- Kartu Notifikasi Status Loading Pemuatan Data Spreadsheet -->
+            <div id="dataSyncStatusCard" class="bg-amber-500/10 border-2 border-amber-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all">
+                <div class="flex items-center space-x-3">
+                    <div id="dataSyncStatusBadge" class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center font-bold">
+                        <i id="dataSyncStatusIcon" data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
+                    </div>
+                    <div>
+                        <h4 id="dataSyncStatusTitle" class="text-xs font-extrabold text-slate-900 uppercase tracking-wide">Sedang Memuat Data Google Spreadsheet...</h4>
+                        <p id="dataSyncStatusDesc" class="text-[11px] font-semibold text-slate-600">Mohon tunggu sebentar, sistem sedang melakukan sinkronisasi data arsip terbaru.</p>
+                    </div>
+                </div>
+                <button onclick="syncSpreadsheetData()" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1 shrink-0">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Muat Ulang</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: DASHBOARD -->
+            <section id="content-dashboard" class="tab-content space-y-6">
+                <!-- Counter & Stats Widget -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Surat Masuk</p>
+                            <h3 id="statTotalMasuk" class="text-3xl font-extrabold text-slate-900 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-100 border border-emerald-300 rounded-xl flex items-center justify-center text-emerald-700">
+                            <i data-lucide="arrow-down-left" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Surat Keluar</p>
+                            <h3 id="statTotalKeluar" class="text-3xl font-extrabold text-slate-900 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 border border-blue-300 rounded-xl flex items-center justify-center text-blue-700">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nomor Keluar Terakhir</p>
+                            <h3 id="statCounterKeluar" class="text-3xl font-extrabold text-indigo-700 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-indigo-100 border border-indigo-300 rounded-xl flex items-center justify-center text-indigo-700">
+                            <i data-lucide="hash" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nomor SK Terakhir</p>
+                            <h3 id="statCounterSK" class="text-3xl font-extrabold text-amber-700 mt-1">0</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-amber-100 border border-amber-300 rounded-xl flex items-center justify-center text-amber-700">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Preview Number Generator Card -->
+                <div class="bg-slate-900 p-6 rounded-3xl border-2 border-slate-700 text-white shadow-xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-teal-400 flex items-center gap-2">
+                            <i data-lucide="cpu" class="w-4 h-4"></i> Generator Format Nomor Surat Real-Time
+                        </span>
+                        <span class="text-[11px] font-bold bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-slate-300">Format Standar MA</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-slate-900 text-xs">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Sifat Surat</label>
+                            <select id="genStatus" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500">
+                                <option value="B">BIASA (B)</option>
+                                <option value="R">RAHASIA (R)</option>
+                                <option value="SR">SANGAT RAHASIA (SR)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Kode Jabatan</label>
+                            <select id="genKodeJabatan" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500">
+                                <option value="01">01 - Kepala Madrasah</option>
+                                <option value="00">00 - Ketua Yayasan</option>
+                                <option value="02">02 - Waka Kurikulum</option>
+                                <option value="03">03 - Waka Kesiswaan</option>
+                                <option value="04">04 - Waka Humas</option>
+                                <option value="05">05 - Kepala TU</option>
+                                <option value="06">06 - Bendahara</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Jenis Surat</label>
+                            <select id="genJenisSurat" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500">
+                                <option value="SPm">SPm - Surat Permohonan</option>
+                                <option value="SKu">SKu - Surat Kuasa</option>
+                                <option value="EDR">EDR - Edaran</option>
+                                <option value="UND">UND - Undangan</option>
+                                <option value="SKet">SKet - Surat Keterangan</option>
+                                <option value="SPPD">SPPD - Perjalanan Dinas</option>
+                                <option value="SK">SK - Surat Keputusan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Nomor Urut</label>
+                            <input type="number" id="genCustomCounter" onchange="updateNumberPreview()" onkeyup="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500" placeholder="Nomor Urut">
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <p class="text-xs font-bold text-slate-400">Hasil Format Penomoran Surat Otomatis:</p>
+                            <div id="previewNumberResult" class="font-mono text-lg font-black text-teal-300 tracking-wide bg-slate-950 p-3 rounded-xl border border-slate-800 select-all">
+                                -
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyGeneratedNumber()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white rounded-xl text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+                                <i data-lucide="copy" class="w-4 h-4 text-teal-400"></i>
+                                <span>Salin Nomor</span>
+                            </button>
+                            <button onclick="useNumberAndCreateDoc()" class="px-5 py-3 bg-teal-500 hover:bg-teal-400 text-slate-900 rounded-xl text-xs font-extrabold flex items-center justify-center space-x-2 shadow-lg shadow-teal-500/20 transition-all">
+                                <i data-lucide="file-plus" class="w-4 h-4"></i>
+                                <span>Buat Nomor Surat</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: SURAT MASUK -->
+            <section id="content-surat-masuk" class="tab-content hidden space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-300">
+                    <h2 class="text-base font-extrabold text-slate-900">Arsip Surat Masuk</h2>
+                    <button onclick="openModalUpload('SURAT_MASUK')" class="px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center justify-center space-x-2 transition-all">
+                        <i data-lucide="upload" class="w-4 h-4"></i>
+                        <span>Upload Surat Masuk</span>
+                    </button>
+                </div>
+
+                <div class="bg-white p-3 rounded-2xl border-2 border-slate-300 shadow-sm">
+                    <div class="relative">
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                        <input type="text" id="searchSuratMasuk" onkeyup="filterSuratTable('tableSuratMasuk', 'searchSuratMasuk')" placeholder="Cari surat masuk berdasarkan nomor, pengirim, judul, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead class="bg-slate-800 text-white font-bold uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-b border-slate-700">
+                                        <div class="space-y-1">
+                                            <span>Tgl Diterima</span>
+                                            <select id="filterMasukTgl" onchange="applyColumnFilter('tableSuratMasuk')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                                <option value="">Semua Tanggal</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="p-3 border-b border-slate-700">
+                                        <div class="space-y-1">
+                                            <span>Nomor Surat</span>
+                                        </div>
+                                    </th>
+                                    <th class="p-3 border-b border-slate-700">
+                                        <div class="space-y-1">
+                                            <span>Pengirim</span>
+                                            <select id="filterMasukPengirim" onchange="applyColumnFilter('tableSuratMasuk')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                                <option value="">Semua Pengirim</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="p-3 border-b border-slate-700">Judul / Perihal</th>
+                                    <th class="p-3 border-b border-slate-700">Berkas</th>
+                                    <th class="p-3 border-b border-slate-700 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableSuratMasuk" class="divide-y-2 divide-slate-200 font-medium">
+                                <tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Memuat data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: SURAT KELUAR -->
+            <section id="content-surat-keluar" class="tab-content hidden space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-300">
+                    <h2 class="text-base font-extrabold text-slate-900">Arsip Surat Keluar</h2>
+                    <button onclick="openModalUpload('SURAT_KELUAR')" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center justify-center space-x-2 transition-all">
+                        <i data-lucide="upload" class="w-4 h-4"></i>
+                        <span>Upload Manual Surat Keluar</span>
+                    </button>
+                </div>
+
+                <div class="bg-white p-3 rounded-2xl border-2 border-slate-300 shadow-sm">
+                    <div class="relative">
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                        <input type="text" id="searchSuratKeluar" onkeyup="filterSuratTable('tableSuratKeluar', 'searchSuratKeluar')" placeholder="Cari surat keluar berdasarkan nomor, tujuan, perihal, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead class="bg-slate-800 text-white font-bold uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-b border-slate-700">
+                                        <div class="space-y-1">
+                                            <span>Tgl Keluar</span>
+                                            <select id="filterKeluarTgl" onchange="applyColumnFilter('tableSuratKeluar')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                                <option value="">Semua Tanggal</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="p-3 border-b border-slate-700">Nomor Surat</th>
+                                    <th class="p-3 border-b border-slate-700">
+                                        <div class="space-y-1">
+                                            <span>Tujuan / Penerima</span>
+                                            <select id="filterKeluarTujuan" onchange="applyColumnFilter('tableSuratKeluar')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                                <option value="">Semua Tujuan</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="p-3 border-b border-slate-700">Judul / Perihal</th>
+                                    <th class="p-3 border-b border-slate-700">Berkas PDF</th>
+                                    <th class="p-3 border-b border-slate-700 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableSuratKeluar" class="divide-y-2 divide-slate-200 font-medium">
+                                <tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Memuat data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB ARSIP SK -->
+            <section id="content-surat-sk" class="tab-content hidden space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-300">
+                    <h2 class="text-base font-extrabold text-slate-900">Arsip Surat Keputusan (SK)</h2>
+                    <button onclick="openModalUpload('SURAT_SK')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center justify-center space-x-2 transition-all">
+                        <i data-lucide="upload" class="w-4 h-4"></i>
+                        <span>Upload Manual SK</span>
+                    </button>
+                </div>
+
+                <div class="bg-white p-3 rounded-2xl border-2 border-slate-300 shadow-sm">
+                    <div class="relative">
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                        <input type="text" id="searchSuratSK" onkeyup="filterSuratTable('tableSuratSK', 'searchSuratSK')" placeholder="Cari SK berdasarkan nomor, perihal/tentang, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead class="bg-slate-800 text-white font-bold uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3 border-b border-slate-700">
+                                        <div class="space-y-1">
+                                            <span>Tgl Penetapan SK</span>
+                                            <select id="filterSKTgl" onchange="applyColumnFilter('tableSuratSK')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                                <option value="">Semua Tanggal</option>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th class="p-3 border-b border-slate-700">Nomor SK</th>
+                                    <th class="p-3 border-b border-slate-700">Tentang / Perihal SK</th>
+                                    <th class="p-3 border-b border-slate-700">Berkas PDF SK</th>
+                                    <th class="p-3 border-b border-slate-700 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableSuratSK" class="divide-y-2 divide-slate-200 font-medium">
+                                <tr><td colspan="5" class="p-4 text-center text-slate-500 font-bold">Memuat data SK...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: GENERATOR SURAT -->
+            <section id="content-generator" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl border-2 border-slate-300 shadow-sm space-y-6">
+                    <div class="border-b-2 border-slate-200 pb-4">
+                        <h2 class="text-lg font-extrabold text-slate-900">Generator Cetak Dokumen Persuratan</h2>
+                        <p class="text-xs text-slate-600 font-medium">Pilih jenis surat untuk memuat formulir isian dokumen otomatis.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button onclick="selectDocType('SKET')" id="btnTypeSKET" class="doc-type-btn border-2 border-teal-600 bg-teal-50 p-4 rounded-2xl text-left transition-all">
+                            <p class="text-xs font-black text-teal-900">Surat Keterangan Aktif</p>
+                            <p class="text-[11px] text-slate-600 font-semibold mt-1">Siswa Aktif Madrasah</p>
+                        </button>
+                        <button onclick="selectDocType('TUGAS')" id="btnTypeTUGAS" class="doc-type-btn border-2 border-slate-300 p-4 rounded-2xl text-left transition-all hover:border-teal-500 bg-slate-50">
+                            <p class="text-xs font-black text-slate-900">Surat Tugas</p>
+                            <p class="text-[11px] text-slate-600 font-semibold mt-1">Penugasan Guru & Staf</p>
+                        </button>
+                        <button onclick="selectDocType('SPPD')" id="btnTypeSPPD" class="doc-type-btn border-2 border-slate-300 p-4 rounded-2xl text-left transition-all hover:border-teal-500 bg-slate-50">
+                            <p class="text-xs font-black text-slate-900">SPPD Dinas</p>
+                            <p class="text-[11px] text-slate-600 font-semibold mt-1">Tabel Kolom Editable</p>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Form Area -->
+                    <form id="docGeneratorForm" onsubmit="handleGenerateSubmit(event)" class="space-y-4">
+                        <input type="hidden" id="selectedDocType" value="SKET">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Judul / Perihal Surat *</label>
+                                <input type="text" id="genJudulSurat" required class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-teal-500 focus:bg-white focus:outline-none" placeholder="Misal: Surat Keterangan Aktif Siswa a.n Ahmad">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Surat (Otomatis/Custom) *</label>
+                                <input type="text" id="genAutoNomorSurat" required class="w-full p-2.5 rounded-xl border-2 border-slate-300 text-xs font-mono font-bold text-teal-800 bg-teal-50 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Form Specific Fields -->
+                        <!-- 1. SKET FIELDS -->
+                        <div id="fieldsSKET" class="space-y-4 pt-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Siswa</label>
+                                    <input type="text" id="sketNamaSiswa" placeholder="Nama Siswa" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Tempat, Tanggal Lahir</label>
+                                    <input type="text" id="sketTTL" placeholder="Tempat, Tanggal Lahir" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">NIS / NISN</label>
+                                    <input type="text" id="sketNISN" placeholder="NIS / NISN" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Kelas</label>
+                                    <input type="text" id="sketKelas" placeholder="Kelas" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Alamat Asal Siswa</label>
+                                <textarea id="sketAlamat" placeholder="Alamat Asal Siswa" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold h-20"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 2. TUGAS FIELDS -->
+                        <div id="fieldsTUGAS" class="hidden space-y-4 pt-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Sumber Surat / Dasar Tugas</label>
+                                    <input type="text" id="tugasSumberSurat" placeholder="Sumber Surat / Dasar Tugas" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Perihal Tugas</label>
+                                    <input type="text" id="tugasPerihal" placeholder="Perihal Tugas" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Guru / Pegawai</label>
+                                    <input type="text" id="tugasNamaGuru" placeholder="Nama Guru / Pegawai Ditugaskan" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Jabatan Guru</label>
+                                    <input type="text" id="tugasJabatanGuru" placeholder="Jabatan Guru" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Detail Tugas</label>
+                                <textarea id="tugasDetail" placeholder="Detail Instansi / Tugas yang diberikan" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold h-20"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 3. SPPD FIELDS -->
+                        <div id="fieldsSPPD" class="hidden space-y-4 pt-2">
+                            <div class="flex items-center justify-between">
+                                <label class="text-xs font-bold text-slate-800">Rincian Kolom SPPD Dinas (Editable Table)</label>
+                                <button type="button" onclick="addSPPDRow()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center space-x-1 shadow-sm">
+                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                    <span>Tambah Baris</span>
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto border-2 border-slate-300 rounded-xl">
+                                <table id="tableSPPD" class="w-full text-xs text-left">
+                                    <thead class="bg-slate-800 text-white font-bold">
+                                        <tr>
+                                            <th class="p-2.5 w-12 text-center">No</th>
+                                            <th class="p-2.5">Pejabat / Pegawai</th>
+                                            <th class="p-2.5">Maksud Perjalanan Dinas</th>
+                                            <th class="p-2.5">Tujuan</th>
+                                            <th class="p-2.5">Lama Perjalanan</th>
+                                            <th class="p-2.5 w-10 text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodySPPD" class="divide-y-2 divide-slate-200">
+                                        <tr>
+                                            <td class="p-2 text-center font-bold">1</td>
+                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-pegawai" placeholder="Nama/Jabatan"></td>
+                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-maksud" placeholder="Maksud Perjalanan"></td>
+                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-tujuan" placeholder="Kota Tujuan"></td>
+                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-lama" placeholder="3 Hari"></td>
+                                            <td class="p-2 text-center">
+                                                <button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-end">
+                            <div id="btnGroupSKET" class="flex flex-wrap gap-2">
+                                <button type="button" id="btnGenSKETNoStamp" onclick="submitGenerateWithStamp(false)" class="px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-lg text-xs flex items-center space-x-2 transition-all">
+                                    <i data-lucide="file-check" class="w-4 h-4 btn-icon"></i>
+                                    <span class="btn-text">Generate PDF (Tanpa Stempel)</span>
+                                </button>
+                                <button type="button" id="btnGenSKETStamp" onclick="submitGenerateWithStamp(true)" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-lg text-xs flex items-center space-x-2 transition-all">
+                                    <i data-lucide="stamp" class="w-4 h-4 btn-icon"></i>
+                                    <span class="btn-text">Generate PDF (Dengan Stempel)</span>
+                                </button>
+                            </div>
+                            <div id="btnGroupStandard" class="hidden">
+                                <button type="submit" id="btnGenStandard" class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-lg text-xs flex items-center space-x-2 transition-all">
+                                    <i data-lucide="file-check" class="w-4 h-4 btn-icon"></i>
+                                    <span class="btn-text">Generate PDF & Simpan ke Drive</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TAB 5: SETTINGS -->
+            <section id="content-settings" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl border-2 border-slate-300 shadow-sm space-y-6">
+                    <div>
+                        <h2 class="text-lg font-extrabold text-slate-900">Pengaturan Sistem Persuratan</h2>
+                        <p class="text-xs text-slate-600 font-medium">Atur nomor counter, nama Kepala Madrasah, serta ID Google Docs/Drive.</p>
+                    </div>
+
+                    <form id="settingsForm" onsubmit="handleSaveSettings(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Counter Urut Terakhir Surat Keluar Standar</label>
+                                <input type="number" id="setCounterKeluar" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 font-mono text-xs font-bold text-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Counter Urut Terakhir Surat Keputusan (SK)</label>
+                                <input type="number" id="setCounterSK" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 font-mono text-xs font-bold text-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Kepala Madrasah</label>
+                                <input type="text" id="setNamaKM" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold text-slate-900">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">NIP Kepala Madrasah</label>
+                                <input type="text" id="setNipKM" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold text-slate-900">
+                            </div>
+                        </div>
+
+                        <div class="border-t-2 border-slate-200 pt-4 space-y-4">
+                            <h3 class="text-xs font-black text-slate-800 uppercase tracking-wider">Integrasi Google Drive & Docs ID</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Folder ID Surat Masuk</label>
+                                    <input type="text" id="setFolderMasuk" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Folder ID Surat Keluar</label>
+                                    <input type="text" id="setFolderKeluar" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Folder ID Surat SK</label>
+                                    <input type="text" id="setFolderSK" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Template Docs ID SKet Aktif (Tanpa Stempel)</label>
+                                    <input type="text" id="setTemplateSKet" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-emerald-700 mb-1">Template Docs ID SKet Aktif (Ber-Stempel)</label>
+                                    <input type="text" id="setTemplateSKetStempel" class="w-full p-2 rounded-xl border-2 border-teal-300 bg-emerald-50 text-xs font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Template Docs ID Surat Tugas</label>
+                                    <input type="text" id="setTemplateTugas" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Template Docs ID SPPD</label>
+                                    <input type="text" id="setTemplateSPPD" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-end">
+                            <button type="submit" id="btnSaveSettings" class="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-extrabold shadow-md transition-all flex items-center space-x-2">
+                                <i data-lucide="save" class="w-4 h-4 btn-icon"></i>
+                                <span class="btn-text">Simpan Pengaturan</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Aplikasi -->
+        <footer class="bg-slate-900 border-t-2 border-slate-800 text-slate-400 py-4 px-4 text-center mt-auto">
+            <div class="max-w-7xl mx-auto space-y-1">
+                <p class="text-xs font-semibold text-slate-300">Sistem Informasi Persuratan Terpadu &copy; 2026</p>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tight">(APLIKASI INI DIBUAT DAN DIKEMBANGKAN OLEH NUR M. IKBALILMAROM, S.Pd., M.Pd)</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAL UPLOAD MANUAL SURAT -->
+    <div id="modalUpload" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl border-2 border-slate-300 max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b-2 border-slate-200 pb-3">
+                <h3 id="modalUploadTitle" class="font-extrabold text-slate-900 text-sm">Upload Berkas Surat</h3>
+                <button onclick="closeModalUpload()" class="text-slate-500 hover:text-slate-800"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <form id="uploadManualForm" onsubmit="handleManualUploadSubmit(event)" class="space-y-3">
+                <input type="hidden" id="uploadCategory" value="SURAT_MASUK">
                 
-                <div class="space-y-1 text-gray-800 font-medium pl-2 mb-4">
-                    <p>Nama : <span id="resNama" class="font-bold text-gray-900">-</span></p>
-                    <p>Nomor Pendaftaran : <span id="resNoPendaftaran" class="font-bold text-emerald-700">-</span></p>
-                    <p>Tanggal Terdaftar : <span id="resTglTerdaftar" class="text-gray-600">-</span></p>
-                    <p>Status : <span id="resStatus" class="font-bold px-2 py-0.5 rounded text-xs bg-emerald-200 text-emerald-800 border border-emerald-300 inline-block">-</span></p>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Surat / SK *</label>
+                    <input type="text" id="upNomorSurat" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                </div>
+                <div id="upGroupTanggalSurat">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Surat *</label>
+                    <input type="date" id="upTanggalSurat" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
                 </div>
                 
-                <a href="#" id="resPDF" target="_blank" class="hidden"></a>
-            </div>
-        </div>
-
-    </main>
-
-    <div id="summaryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
-            <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-emerald-50 rounded-t-lg">
-                <h3 class="text-xl font-bold text-emerald-800">Ringkasan Formulir</h3>
-            </div>
-            <div class="p-4 overflow-y-auto flex-grow text-sm" id="summaryContent">
+                <!-- INPUT TANGGAL DITERIMA SECARA MANUAL (KHUSUS SURAT MASUK) -->
+                <div id="upGroupTanggalDiterima">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Diterima *</label>
+                    <input type="date" id="upTanggalDiterima" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
                 </div>
-            <div class="p-4 border-t border-gray-200 flex flex-col md:flex-row gap-3 justify-end bg-gray-50 rounded-b-lg">
-                <button type="button" onclick="hideSummary()" class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition">Edit Formulir</button>
-                <button type="button" onclick="submitData()" id="btnSubmit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg flex justify-center items-center transition">Yakin, Lanjut dan Kirim</button>
-            </div>
+
+                <div id="upGroupPengirim">
+                    <label id="upPengirimLabel" class="block text-xs font-bold text-slate-700 mb-1">Pengirim / Tujuan *</label>
+                    <input type="text" id="upPengirim" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Judul / Perihal Surat *</label>
+                    <input type="text" id="upJudulSurat" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Berkas File (PDF / Image) *</label>
+                    <input type="file" id="upFile" required accept="application/pdf,image/*" class="w-full text-xs text-slate-600 font-bold file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-2 file:border-teal-600 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-800 hover:file:bg-teal-100">
+                </div>
+
+                <div class="pt-3 flex justify-end space-x-2 border-t border-slate-200">
+                    <button type="button" onclick="closeModalUpload()" class="px-4 py-2 border-2 border-slate-300 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100">Batal</button>
+                    <button type="submit" id="btnUploadSubmit" class="px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold shadow-md hover:bg-teal-700 flex items-center space-x-2">
+                        <i id="btnUploadIcon" data-lucide="upload-cloud" class="w-4 h-4"></i>
+                        <span id="btnUploadText">Upload & Simpan</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full text-center p-8">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h3 class="text-2xl font-bold text-gray-800 mb-2">Pendaftaran Berhasil!</h3>
-            <p class="text-gray-600 mb-6 leading-relaxed">Selamat Anda Telah Terdaftar di Pendaftaran Santri Baru Pondok Pesantren Nahdlatul Arifin Tahun Ajaran 1447-1448 H / 2026-2027 M.</p>
-            <a href="#" id="downloadPdfBtn" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg mb-3 transition">Download Bukti Pendaftaran (PDF)</a>
-            <button onclick="window.location.reload()" class="text-emerald-600 underline text-sm hover:text-emerald-700">Kembali ke Beranda</button>
-        </div>
-    </div>
-
+    <!-- LOGIC SCRIPT (JAVASCRIPT) -->
     <script>
-        // -------------------------------------------------------------
-        // PASTE URL WEB APP ANDA DI DALAM TANDA KUTIP DI BAWAH INI:
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyWup5V2zNqJK1UrY8dlHn0lClZg4ClsiUgoC4CKQsR_X159RJ2YU9Ag3EfC14-gywJ/exec'; 
-        // -------------------------------------------------------------
+      let currentUser = null;
+      let appData = { stats: {}, settings: {}, suratMasuk: [], suratKeluar: [], suratSK: [] };
+      const SESSION_TIMEOUT_MS = 60 * 60 * 1000;
 
-        // Menjalankan fungsi otomatis saat website dibuka
-        document.addEventListener("DOMContentLoaded", function() {
-            ambilKonfigurasiLink();
+      const MONTH_NAMES_ID = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+
+      function formatDateIndonesian(dateInput) {
+        if (!dateInput) return '-';
+        let dateObj = new Date(dateInput);
+        if (isNaN(dateObj.getTime())) {
+          return dateInput;
+        }
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+
+      function formatDatePDF(dateInput) {
+        let dateObj = dateInput ? new Date(dateInput) : new Date();
+        if (isNaN(dateObj.getTime())) dateObj = new Date();
+        
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const monthName = MONTH_NAMES_ID[dateObj.getMonth()];
+        const year = dateObj.getFullYear();
+        return `${day} ${monthName} ${year}`;
+      }
+
+      async function fetchWithTimeout(resource, options = {}) {
+        const { timeout = 15000 } = options;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        try {
+          const response = await fetch(resource, {
+            ...options,
+            signal: controller.signal,
+            redirect: "follow",
+            cache: "no-store"
+          });
+          clearTimeout(id);
+          return response;
+        } catch (error) {
+          clearTimeout(id);
+          throw error;
+        }
+      }
+
+      function setButtonLoading(buttonId, isLoading, loadingText = "Memproses...", originalText = "", originalIcon = "") {
+        const btn = document.getElementById(buttonId);
+        if (!btn) return;
+
+        const iconEl = btn.querySelector('.btn-icon') || btn.querySelector('i');
+        const textEl = btn.querySelector('.btn-text') || btn.querySelector('span');
+
+        if (isLoading) {
+          btn.disabled = true;
+          btn.classList.add('opacity-75', 'cursor-not-allowed');
+          if (iconEl) {
+            iconEl.setAttribute('data-lucide', 'loader-2');
+            iconEl.classList.add('animate-spin');
+          }
+          if (textEl) textEl.innerText = loadingText;
+        } else {
+          btn.disabled = false;
+          btn.classList.remove('opacity-75', 'cursor-not-allowed');
+          if (iconEl && originalIcon) {
+            iconEl.setAttribute('data-lucide', originalIcon);
+            iconEl.classList.remove('animate-spin');
+          }
+          if (textEl && originalText) textEl.innerText = originalText;
+        }
+        lucide.createIcons();
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        checkSession();
+        updateNumberPreview();
+      });
+
+      function showLoading(text = 'Memproses data...') {
+        document.getElementById('loadingText').innerText = text;
+        const el = document.getElementById('loadingOverlay');
+        el.classList.remove('opacity-0', 'pointer-events-none');
+      }
+
+      function hideLoading() {
+        const el = document.getElementById('loadingOverlay');
+        el.classList.add('opacity-0', 'pointer-events-none');
+      }
+
+      function updateSyncStatusUI(isLoading, isError = false) {
+        const card = document.getElementById('dataSyncStatusCard');
+        const badge = document.getElementById('dataSyncStatusBadge');
+        const icon = document.getElementById('dataSyncStatusIcon');
+        const title = document.getElementById('dataSyncStatusTitle');
+        const desc = document.getElementById('dataSyncStatusDesc');
+
+        if (!card || !badge || !icon || !title || !desc) return;
+
+        if (isLoading) {
+          card.classList.remove('hidden');
+          card.className = "bg-amber-500/10 border-2 border-amber-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
+          badge.className = "w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center font-bold";
+          icon.setAttribute('data-lucide', 'loader-2');
+          icon.classList.add('animate-spin');
+          title.innerText = "SEDANG MEMUAT DATA GOOGLE SPREADSHEET...";
+          desc.innerText = "Mohon tunggu sebentar, sistem sedang melakukan sinkronisasi data arsip terbaru dari Google Spreadsheet.";
+        } else if (isError) {
+          card.classList.remove('hidden');
+          card.className = "bg-rose-500/10 border-2 border-rose-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
+          badge.className = "w-9 h-9 rounded-xl bg-rose-500/20 text-rose-600 flex items-center justify-center font-bold";
+          icon.setAttribute('data-lucide', 'alert-circle');
+          icon.classList.remove('animate-spin');
+          title.innerText = "GAGAL MEMUAT DATA SPREADSHEET";
+          desc.innerText = "Terjadi keterlambatan/kesalahan koneksi. Klik tombol 'Muat Ulang' untuk mencoba lagi.";
+        } else {
+          card.className = "bg-emerald-500/10 border-2 border-emerald-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
+          badge.className = "w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold";
+          icon.setAttribute('data-lucide', 'check-circle-2');
+          icon.classList.remove('animate-spin');
+          title.innerText = "DATA DARI GOOGLE SPREADSHEET BERHASIL DIMUAT!";
+          desc.innerText = "Seluruh data arsip persuratan telah siap dan disinkronkan sepenuhnya.";
+
+          setTimeout(() => {
+            card.classList.add('hidden');
+          }, 4000);
+        }
+        lucide.createIcons();
+      }
+
+      function showToast(message, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        const isSuccess = type === 'success';
+        
+        toast.className = `p-4 rounded-2xl shadow-2xl border-2 pointer-events-auto transform transition-all duration-300 flex items-center space-x-3 text-xs font-bold ${
+          isSuccess ? 'bg-emerald-600 text-white border-emerald-300' : 'bg-rose-600 text-white border-rose-300'
+        }`;
+
+        toast.innerHTML = `
+          <i data-lucide="${isSuccess ? 'check-circle' : 'alert-circle'}" class="w-5 h-5"></i>
+          <span>${message}</span>
+        `;
+
+        container.appendChild(toast);
+        lucide.createIcons();
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-x-full');
+          setTimeout(() => toast.remove(), 300);
+        }, 5000);
+      }
+
+      async function syncSpreadsheetData() {
+        const icon = document.getElementById('syncIcon');
+        if (icon) icon.classList.add('animate-spin');
+        updateSyncStatusUI(true);
+        
+        try {
+          await loadInitialData();
+          await loadSuratList();
+          updateSyncStatusUI(false, false);
+          showToast('Berhasil terhubung & memuat ulang data dari Google Spreadsheet!', 'success');
+        } catch (err) {
+          updateSyncStatusUI(false, true);
+          showToast('Gagal terhubung ke Google Spreadsheet! Coba lagi dalam beberapa saat.', 'error');
+        } finally {
+          if (icon) icon.classList.remove('animate-spin');
+        }
+      }
+
+      function checkSession() {
+        const sessionData = localStorage.getItem('persuratan_session');
+        if (sessionData) {
+          const { user, timestamp } = JSON.parse(sessionData);
+          const now = new Date().getTime();
+
+          if (now - timestamp < SESSION_TIMEOUT_MS) {
+            currentUser = user;
+            localStorage.setItem('persuratan_session', JSON.stringify({ user, timestamp: now }));
+            renderApp();
+            return;
+          } else {
+            showToast('Sesi Anda telah berakhir (1 Jam). Silakan login kembali.', 'error');
+            logout();
+            return;
+          }
+        }
+        showLogin();
+      }
+
+      function showLogin() {
+        document.getElementById('loginView').classList.remove('hidden');
+        document.getElementById('appView').classList.add('hidden');
+      }
+
+      function renderApp() {
+        document.getElementById('loginView').classList.add('hidden');
+        document.getElementById('appView').classList.remove('hidden');
+        document.getElementById('userDisplayName').innerText = currentUser.nama;
+        document.getElementById('userRoleBadge').innerText = currentUser.role;
+
+        if (currentUser.role !== 'Admin') {
+          document.getElementById('btnSaveSettings').disabled = true;
+          document.getElementById('btnSaveSettings').classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        syncSpreadsheetData();
+      }
+
+      async function handleLogin(e) {
+        e.preventDefault();
+        const usernameInput = document.getElementById('loginUsername');
+        const passwordInput = document.getElementById('loginPassword');
+
+        setButtonLoading('btnLoginSubmit', true, 'Memverifikasi...', 'Masuk ke Sistem', 'arrow-right');
+        showLoading('Verifikasi login...');
+
+        try {
+          const res = await fetchWithTimeout(GAS_WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'login', payload: { username: usernameInput.value, password: passwordInput.value } })
+          });
+          const result = await res.json();
+          hideLoading();
+          setButtonLoading('btnLoginSubmit', false, '', 'Masuk ke Sistem', 'arrow-right');
+
+          if (result.status === 'success') {
+            currentUser = result.user;
+            localStorage.setItem('persuratan_session', JSON.stringify({
+              user: currentUser,
+              timestamp: new Date().getTime()
+            }));
+            showToast('Login berhasil! Selamat datang ' + currentUser.nama);
+            renderApp();
+          } else {
+            showToast(result.message || 'Login gagal!', 'error');
+          }
+        } catch (err) {
+          hideLoading();
+          setButtonLoading('btnLoginSubmit', false, '', 'Masuk ke Sistem', 'arrow-right');
+          showToast('Gagal terhubung ke server backend.', 'error');
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem('persuratan_session');
+        currentUser = null;
+        
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginPassword').value = '';
+
+        showLogin();
+        showToast('Anda telah keluar dari sistem.');
+      }
+
+      async function loadInitialData() {
+        const res = await fetchWithTimeout(`${GAS_WEB_APP_URL}?action=getInitialData`);
+        const result = await res.json();
+        if (result.status === 'success') {
+          appData.stats = result.stats;
+          appData.settings = result.settings;
+
+          document.getElementById('statTotalMasuk').innerText = result.stats.totalSuratMasuk;
+          document.getElementById('statTotalKeluar').innerText = result.stats.totalSuratKeluar;
+          document.getElementById('statCounterKeluar').innerText = result.stats.counterSuratKeluar;
+          document.getElementById('statCounterSK').innerText = result.stats.counterSK;
+
+          document.getElementById('setCounterKeluar').value = result.stats.counterSuratKeluar;
+          document.getElementById('setCounterSK').value = result.stats.counterSK;
+          document.getElementById('setNamaKM').value = result.settings.NAMA_KEPALA_MADRASAH || '';
+          document.getElementById('setNipKM').value = result.settings.NIP_KEPALA_MADRASAH || '';
+          document.getElementById('setFolderMasuk').value = result.settings.FOLDER_ID_SURAT_MASUK || '';
+          document.getElementById('setFolderKeluar').value = result.settings.FOLDER_ID_SURAT_KELUAR || '';
+          document.getElementById('setFolderSK').value = result.settings.FOLDER_ID_SK || '';
+          document.getElementById('setTemplateSKet').value = result.settings.TEMPLATE_ID_SKET || '';
+          document.getElementById('setTemplateSKetStempel').value = result.settings.TEMPLATE_ID_SKET_STEMPEL || '';
+          document.getElementById('setTemplateTugas').value = result.settings.TEMPLATE_ID_TUGAS || '';
+          document.getElementById('setTemplateSPPD').value = result.settings.TEMPLATE_ID_SPPD || '';
+
+          document.getElementById('genCustomCounter').value = result.stats.counterSuratKeluar + 1;
+          updateNumberPreview();
+        } else {
+          throw new Error('Gagal mengambil data awal');
+        }
+      }
+
+      async function loadSuratList() {
+        const res = await fetchWithTimeout(`${GAS_WEB_APP_URL}?action=getSuratList`);
+        const result = await res.json();
+        if (result.status === 'success') {
+          appData.suratMasuk = result.suratMasuk || [];
+          
+          const allKeluar = result.suratKeluar || [];
+          appData.suratKeluar = allKeluar.filter(item => {
+            const no = (item['Nomor Surat'] || '').toUpperCase();
+            return !no.includes('/SK/') && !no.includes('/SK-') && item['Kategori'] !== 'SK';
+          });
+          
+          appData.suratSK = result.suratSK || allKeluar.filter(item => {
+            const no = (item['Nomor Surat'] || '').toUpperCase();
+            return no.includes('/SK/') || no.includes('/SK-') || item['Kategori'] === 'SK';
+          });
+
+          renderTableSuratMasuk(appData.suratMasuk);
+          renderTableSuratKeluar(appData.suratKeluar);
+          renderTableSuratSK(appData.suratSK);
+          
+          populateFilterOptions();
+        } else {
+          throw new Error('Gagal mengambil daftar surat');
+        }
+      }
+
+      function renderTableSuratMasuk(data) {
+        const tbody = document.getElementById('tableSuratMasuk');
+        if (!data.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Belum ada data surat masuk.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.map(item => {
+          const formattedDate = formatDateIndonesian(item['Tanggal Diterima'] || item['Tanggal Surat'] || item['Tanggal']);
+          return `
+            <tr class="hover:bg-slate-100">
+              <td class="p-3 border-b border-slate-200 font-bold col-tgl">${formattedDate}</td>
+              <td class="p-3 border-b border-slate-200 font-mono font-bold text-teal-800 col-nomor">${item['Nomor Surat'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200 font-bold text-slate-800 col-pengirim">${item['Pengirim'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200">
+                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-teal-700 hover:text-teal-900 underline font-bold inline-flex items-center space-x-1"><i data-lucide="external-link" class="w-3.5 h-3.5"></i><span>Buka File</span></a>` : '-'}
+              </td>
+              <td class="p-3 border-b border-slate-200 text-center">
+                ${currentUser && currentUser.role === 'Admin' ? `<button onclick="deleteRecord('SURAT_MASUK', '${item.ID}', this)" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : '-'}
+              </td>
+            </tr>
+          `;
+        }).join('');
+        lucide.createIcons();
+      }
+
+      function renderTableSuratKeluar(data) {
+        const tbody = document.getElementById('tableSuratKeluar');
+        if (!data.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Belum ada data surat keluar.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.map(item => {
+          const formattedDate = formatDateIndonesian(item['Tanggal Keluar'] || item['Tanggal Surat'] || item['Tanggal']);
+          return `
+            <tr class="hover:bg-slate-100">
+              <td class="p-3 border-b border-slate-200 font-bold col-tgl">${formattedDate}</td>
+              <td class="p-3 border-b border-slate-200 font-mono font-bold text-indigo-800 col-nomor">${item['Nomor Surat'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200 font-bold text-slate-800 col-tujuan">${item['Tujuan/Penerima'] || item['Tujuan'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200">
+                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-indigo-700 hover:text-indigo-900 underline font-bold inline-flex items-center space-x-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>PDF Drive</span></a>` : '-'}
+              </td>
+              <td class="p-3 border-b border-slate-200 text-center">
+                ${currentUser && currentUser.role === 'Admin' ? `<button onclick="deleteRecord('SURAT_KELUAR', '${item.ID}', this)" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : '-'}
+              </td>
+            </tr>
+          `;
+        }).join('');
+        lucide.createIcons();
+      }
+
+      function renderTableSuratSK(data) {
+        const tbody = document.getElementById('tableSuratSK');
+        if (!data.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 font-bold">Belum ada data Surat Keputusan (SK).</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.map(item => {
+          const formattedDate = formatDateIndonesian(item['Tanggal SK'] || item['Tanggal Keluar'] || item['Tanggal Surat'] || item['Tanggal']);
+          return `
+            <tr class="hover:bg-slate-100">
+              <td class="p-3 border-b border-slate-200 font-bold col-tgl">${formattedDate}</td>
+              <td class="p-3 border-b border-slate-200 font-mono font-bold text-amber-800 col-nomor">${item['Nomor Surat'] || item['Nomor SK'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || item['Tentang'] || '-'}</td>
+              <td class="p-3 border-b border-slate-200">
+                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-amber-700 hover:text-amber-900 underline font-bold inline-flex items-center space-x-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>PDF SK</span></a>` : '-'}
+              </td>
+              <td class="p-3 border-b border-slate-200 text-center">
+                ${currentUser && currentUser.role === 'Admin' ? `<button onclick="deleteRecord('SURAT_SK', '${item.ID}', this)" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : '-'}
+              </td>
+            </tr>
+          `;
+        }).join('');
+        lucide.createIcons();
+      }
+
+      function populateFilterOptions() {
+        const filterMasukTgl = document.getElementById('filterMasukTgl');
+        const filterMasukPengirim = document.getElementById('filterMasukPengirim');
+        if (filterMasukTgl && filterMasukPengirim) {
+          const tglSet = new Set(), pengirimSet = new Set();
+          appData.suratMasuk.forEach(i => {
+            const dateVal = i['Tanggal Diterima'] || i['Tanggal Surat'] || i['Tanggal'];
+            if(dateVal) tglSet.add(formatDateIndonesian(dateVal));
+            if(i['Pengirim']) pengirimSet.add(i['Pengirim']);
+          });
+          filterMasukTgl.innerHTML = '<option value="">Semua Tanggal</option>' + Array.from(tglSet).map(v=>`<option value="${v}">${v}</option>`).join('');
+          filterMasukPengirim.innerHTML = '<option value="">Semua Pengirim</option>' + Array.from(pengirimSet).map(v=>`<option value="${v}">${v}</option>`).join('');
+        }
+
+        const filterKeluarTgl = document.getElementById('filterKeluarTgl');
+        const filterKeluarTujuan = document.getElementById('filterKeluarTujuan');
+        if (filterKeluarTgl && filterKeluarTujuan) {
+          const tglSet = new Set(), tujuanSet = new Set();
+          appData.suratKeluar.forEach(i => {
+            const dateVal = i['Tanggal Keluar'] || i['Tanggal Surat'] || i['Tanggal'];
+            if(dateVal) tglSet.add(formatDateIndonesian(dateVal));
+            if(i['Tujuan/Penerima'] || i['Tujuan']) tujuanSet.add(i['Tujuan/Penerima'] || i['Tujuan']);
+          });
+          filterKeluarTgl.innerHTML = '<option value="">Semua Tanggal</option>' + Array.from(tglSet).map(v=>`<option value="${v}">${v}</option>`).join('');
+          filterKeluarTujuan.innerHTML = '<option value="">Semua Tujuan</option>' + Array.from(tujuanSet).map(v=>`<option value="${v}">${v}</option>`).join('');
+        }
+
+        const filterSKTgl = document.getElementById('filterSKTgl');
+        if (filterSKTgl) {
+          const tglSet = new Set();
+          appData.suratSK.forEach(i => {
+            const dateVal = i['Tanggal SK'] || i['Tanggal Keluar'] || i['Tanggal Surat'] || i['Tanggal'];
+            if(dateVal) tglSet.add(formatDateIndonesian(dateVal));
+          });
+          filterSKTgl.innerHTML = '<option value="">Semua Tanggal</option>' + Array.from(tglSet).map(v=>`<option value="${v}">${v}</option>`).join('');
+        }
+      }
+
+      function filterSuratTable(tableId, inputId) {
+        const query = document.getElementById(inputId).value.toLowerCase();
+        const tbody = document.getElementById(tableId);
+        const rows = tbody.getElementsByTagName('tr');
+
+        for (let row of rows) {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(query) ? '' : 'none';
+        }
+      }
+
+      function applyColumnFilter(tableId) {
+        let tglVal = '', secondaryVal = '';
+
+        if (tableId === 'tableSuratMasuk') {
+          tglVal = document.getElementById('filterMasukTgl').value.toLowerCase();
+          secondaryVal = document.getElementById('filterMasukPengirim').value.toLowerCase();
+        } else if (tableId === 'tableSuratKeluar') {
+          tglVal = document.getElementById('filterKeluarTgl').value.toLowerCase();
+          secondaryVal = document.getElementById('filterKeluarTujuan').value.toLowerCase();
+        } else if (tableId === 'tableSuratSK') {
+          tglVal = document.getElementById('filterSKTgl').value.toLowerCase();
+        }
+
+        const tbody = document.getElementById(tableId);
+        const rows = tbody.getElementsByTagName('tr');
+
+        for (let row of rows) {
+          const colTgl = row.querySelector('.col-tgl')?.innerText.toLowerCase() || '';
+          const colSecondary = (row.querySelector('.col-pengirim') || row.querySelector('.col-tujuan'))?.innerText.toLowerCase() || '';
+
+          const matchTgl = !tglVal || colTgl.includes(tglVal);
+          const matchSec = !secondaryVal || colSecondary.includes(secondaryVal);
+
+          row.style.display = (matchTgl && matchSec) ? '' : 'none';
+        }
+      }
+
+      function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('bg-teal-500', 'text-slate-900', 'shadow-md');
+          b.classList.add('text-slate-300');
+        });
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+
+        const activeBtn = document.getElementById(`tab-${tabId}`);
+        if (activeBtn) {
+          activeBtn.classList.add('bg-teal-500', 'text-slate-900', 'shadow-md');
+          activeBtn.classList.remove('text-slate-300');
+        }
+        
+        const activeContent = document.getElementById(`content-${tabId}`);
+        if (activeContent) activeContent.classList.remove('hidden');
+      }
+
+      function updateNumberPreview() {
+        const status = document.getElementById('genStatus').value;
+        const kodeJabatan = document.getElementById('genKodeJabatan').value;
+        const jenisSurat = document.getElementById('genJenisSurat').value;
+        const counter = document.getElementById('genCustomCounter').value || '100';
+
+        const month = String(new Date().getMonth() + 1).padStart(2, '0');
+        const year = new Date().getFullYear();
+
+        const formatted = `${status}-${counter}/Mas.13.32.0569.${kodeJabatan}/${jenisSurat}/${month}/${year}`;
+        document.getElementById('previewNumberResult').innerText = formatted;
+        document.getElementById('genAutoNomorSurat').value = formatted;
+      }
+
+      function copyGeneratedNumber() {
+        const textToCopy = document.getElementById('previewNumberResult').innerText;
+        if (!textToCopy || textToCopy === '-') return;
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          showToast('Nomor surat berhasil disalin!');
+        }).catch(() => {
+          showToast('Gagal menyalin nomor!', 'error');
+        });
+      }
+
+      function useNumberAndCreateDoc() {
+        updateNumberPreview();
+        switchTab('generator');
+        showToast('Nomor surat disiapkan. Silakan lengkapi formulir dokumen!');
+      }
+
+      function selectDocType(type) {
+        document.getElementById('selectedDocType').value = type;
+        document.querySelectorAll('.doc-type-btn').forEach(b => {
+          b.classList.remove('border-teal-600', 'bg-teal-50');
+          b.classList.add('border-slate-300', 'bg-slate-50');
         });
 
-        // FUNGSI BARU: Mengambil link dan membuat tombol secara otomatis sesuai nama di Spreadsheet
-       // FUNGSI BARU DENGAN DETEKSI ERROR OTOMATIS
-        function ambilKonfigurasiLink() {
-            const container = document.getElementById('linkContainer');
+        const activeDocBtn = document.getElementById(`btnType${type}`);
+        activeDocBtn.classList.remove('border-slate-300', 'bg-slate-50');
+        activeDocBtn.classList.add('border-teal-600', 'bg-teal-50');
 
-            // 1. Cek apakah URL masih bawaan contoh
-            if (scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI' || scriptURL === '') {
-                container.innerHTML = '<span class="text-red-500 font-semibold">⚠️ Gagal: Anda belum mengganti scriptURL dengan URL Web App Anda di index.html!</span>';
-                return;
-            }
+        document.getElementById('fieldsSKET').classList.add('hidden');
+        document.getElementById('fieldsTUGAS').classList.add('hidden');
+        document.getElementById('fieldsSPPD').classList.add('hidden');
 
-            fetch(`${scriptURL}?action=getConfig`)
-                .then(response => response.json())
-                .then(result => {
-                    // 2. Cek jika Google Script mengirimkan status Sukses
-                    if (result.status === 'sukses') {
-                        container.innerHTML = ''; // Hapus teks loading
-                        
-                        // Cek jika ternyata baris di spreadsheet masih kosong
-                        if (Object.keys(result.data).length === 0) {
-                            container.innerHTML = '<span class="text-gray-500 italic text-sm">Belum ada data informasi yang diisi di Google Sheets (Tab Config_Info).</span>';
-                            return;
-                        }
+        document.getElementById(`fields${type}`).classList.remove('hidden');
 
-                        // Buat tombol otomatis
-                        for (const [namaLink, urlLink] of Object.entries(result.data)) {
-                            const btn = document.createElement('a');
-                            btn.href = urlLink;
-                            btn.target = "_blank";
-                            btn.className = "bg-emerald-100 text-emerald-800 border border-emerald-500 font-semibold py-3 px-6 rounded-lg text-center hover:bg-emerald-200 transition";
-                            btn.innerText = `📄 ${namaLink}`;
-                            container.appendChild(btn);
-                        }
-                    } else {
-                        // 3. Cek jika Google Script error (Misal: Nama sheet di Google Sheets salah)
-                        container.innerHTML = `<span class="text-red-500 font-semibold">⚠️ Error Google Sheets: ${result.error || 'Gagal mengambil data.'}</span>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Gagal memuat link informasi:', error);
-                    container.innerHTML = '<span class="text-red-500 font-semibold">⚠️ Gagal terhubung ke server. Pastikan Web App sudah di-deploy sebagai "Anyone" (Siapa saja).</span>';
-                });
-        }        function openTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-            document.getElementById('btn-' + tabName).classList.add('active');
+        const btnGroupSKET = document.getElementById('btnGroupSKET');
+        const btnGroupStandard = document.getElementById('btnGroupStandard');
+        if (type === 'SKET') {
+          btnGroupSKET.classList.remove('hidden');
+          btnGroupStandard.classList.add('hidden');
+        } else {
+          btnGroupSKET.classList.add('hidden');
+          btnGroupStandard.classList.remove('hidden');
+        }
+      }
+
+      function addSPPDRow() {
+        const tbody = document.getElementById('tbodySPPD');
+        const count = tbody.children.length + 1;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-2 text-center font-bold">${count}</td>
+          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-pegawai" placeholder="Nama/Jabatan"></td>
+          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-maksud" placeholder="Maksud Perjalanan"></td>
+          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-tujuan" placeholder="Kota Tujuan"></td>
+          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-lama" placeholder="3 Hari"></td>
+          <td class="p-2 text-center">
+              <button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+        lucide.createIcons();
+      }
+
+      function resetDocGeneratorForm() {
+        document.getElementById('genJudulSurat').value = '';
+        
+        document.getElementById('sketNamaSiswa').value = '';
+        document.getElementById('sketTTL').value = '';
+        document.getElementById('sketNISN').value = '';
+        document.getElementById('sketKelas').value = '';
+        document.getElementById('sketAlamat').value = '';
+
+        document.getElementById('tugasSumberSurat').value = '';
+        document.getElementById('tugasPerihal').value = '';
+        document.getElementById('tugasNamaGuru').value = '';
+        document.getElementById('tugasJabatanGuru').value = '';
+        document.getElementById('tugasDetail').value = '';
+
+        const tbodySPPD = document.getElementById('tbodySPPD');
+        if (tbodySPPD) {
+          tbodySPPD.innerHTML = `
+            <tr>
+                <td class="p-2 text-center font-bold">1</td>
+                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-pegawai" placeholder="Nama/Jabatan"></td>
+                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-maksud" placeholder="Maksud Perjalanan"></td>
+                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-tujuan" placeholder="Kota Tujuan"></td>
+                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-lama" placeholder="3 Hari"></td>
+                <td class="p-2 text-center">
+                    <button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </td>
+            </tr>
+          `;
+        }
+      }
+
+      function submitGenerateWithStamp(useStamp) {
+        handleGenerateSubmit(null, useStamp);
+      }
+
+      async function handleGenerateSubmit(e, withStamp = false) {
+        if (e && e.preventDefault) e.preventDefault();
+        
+        const type = document.getElementById('selectedDocType').value;
+        const judulSurat = document.getElementById('genJudulSurat').value;
+        const nomorSurat = document.getElementById('genAutoNomorSurat').value;
+
+        if (!judulSurat || !nomorSurat) {
+          showToast('Harap isi judul dan nomor surat!', 'error');
+          return;
         }
 
-        let formDataObj = {};
+        const activeBtnId = type === 'SKET' 
+          ? (withStamp ? 'btnGenSKETStamp' : 'btnGenSKETNoStamp') 
+          : 'btnGenStandard';
 
-        function showSummary(event) {
-            event.preventDefault(); 
-            const form = document.getElementById('psbForm');
-            const inputs = form.querySelectorAll('input, select, textarea');
-            let summaryHTML = '<table class="w-full text-left border-collapse">';
-            
-            inputs.forEach(input => {
-                if(input.id) {
-                    formDataObj[input.id] = input.value; 
-                    summaryHTML += `
-                        <tr class="border-b border-gray-100">
-                            <td class="py-2 font-medium text-gray-600 w-1/2">${input.id}</td>
-                            <td class="py-2 text-gray-900 w-1/2 font-semibold">${input.value || '-'}</td>
-                        </tr>
-                    `;
-                }
+        const origText = document.getElementById(activeBtnId)?.querySelector('.btn-text')?.innerText || "Generate PDF";
+        const origIcon = type === 'SKET' && withStamp ? "stamp" : "file-check";
+
+        setButtonLoading(activeBtnId, true, "Menyimpan...", origText, origIcon);
+        showLoading('Meng-generate dokumen PDF...');
+
+        const formattedDatePDF = formatDatePDF(new Date());
+
+        let templateDocId = appData.settings['TEMPLATE_ID_SKET'];
+        let replacements = {
+          NOMOR_SURAT: nomorSurat,
+          JUDUL_SURAT: judulSurat,
+          NAMA_KM: appData.settings['NAMA_KEPALA_MADRASAH'] || '',
+          NIP_KM: appData.settings['NIP_KEPALA_MADRASAH'] || '',
+          TANGGAL_SURAT: formattedDatePDF
+        };
+
+        if (type === 'SKET') {
+          templateDocId = withStamp 
+            ? (appData.settings['TEMPLATE_ID_SKET_STEMPEL'] || appData.settings['TEMPLATE_ID_SKET'])
+            : appData.settings['TEMPLATE_ID_SKET'];
+
+          replacements.NAMA_SISWA = document.getElementById('sketNamaSiswa').value;
+          replacements.TTL = document.getElementById('sketTTL').value;
+          replacements.NISN = document.getElementById('sketNISN').value;
+          replacements.KELAS = document.getElementById('sketKelas').value;
+          replacements.ALAMAT = document.getElementById('sketAlamat').value;
+        } else if (type === 'TUGAS') {
+          templateDocId = appData.settings['TEMPLATE_ID_TUGAS'];
+          replacements.SUMBER_SURAT = document.getElementById('tugasSumberSurat').value;
+          replacements.PERIHAL = document.getElementById('tugasPerihal').value;
+          replacements.NAMA_GURU = document.getElementById('tugasNamaGuru').value;
+          replacements.JABATAN_GURU = document.getElementById('tugasJabatanGuru').value;
+          replacements.DETAIL_TUGAS = document.getElementById('tugasDetail').value;
+        } else if (type === 'SPPD') {
+          templateDocId = appData.settings['TEMPLATE_ID_SPPD'];
+          let sppdList = [];
+          document.querySelectorAll('#tbodySPPD tr').forEach(tr => {
+            sppdList.push({
+              pegawai: tr.querySelector('.sppd-pegawai').value,
+              maksud: tr.querySelector('.sppd-maksud').value,
+              tujuan: tr.querySelector('.sppd-tujuan').value,
+              lama: tr.querySelector('.sppd-lama').value
             });
-            summaryHTML += '</table>';
-            document.getElementById('summaryContent').innerHTML = summaryHTML;
-            document.getElementById('summaryModal').style.display = 'flex';
+          });
+          replacements.DETAIL_SPPD_TABLE = JSON.stringify(sppdList);
         }
 
-        function hideSummary() {
-            document.getElementById('summaryModal').style.display = 'none';
+        try {
+          const res = await fetchWithTimeout(GAS_WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'generateDocument',
+              payload: {
+                type: type,
+                templateDocId: templateDocId,
+                judulSurat: judulSurat,
+                nomorSurat: nomorSurat,
+                jenisSurat: document.getElementById('genJenisSurat').value,
+                kodeJabatan: document.getElementById('genKodeJabatan').value,
+                tujuan: replacements.NAMA_SISWA || replacements.NAMA_GURU || 'Dinas',
+                replacements: replacements,
+                operator: currentUser.nama
+              }
+            })
+          });
+          const result = await res.json();
+          hideLoading();
+          setButtonLoading(activeBtnId, false, "", origText, origIcon);
+
+          if (result.status === 'success') {
+            showToast('Dokumen berhasil dibuat & tersimpan di Google Drive!');
+            resetDocGeneratorForm();
+            if (result.pdfUrl) window.open(result.pdfUrl, '_blank');
+            syncSpreadsheetData();
+          } else {
+            showToast(result.message || 'Gagal generate dokumen!', 'error');
+          }
+        } catch (err) {
+          hideLoading();
+          setButtonLoading(activeBtnId, false, "", origText, origIcon);
+          showToast('Terjadi kesalahan koneksi!', 'error');
+        }
+      }
+
+      function openModalUpload(category) {
+        document.getElementById('uploadCategory').value = category;
+        
+        const titleEl = document.getElementById('modalUploadTitle');
+        const pengirimLabel = document.getElementById('upPengirimLabel');
+        const groupPengirim = document.getElementById('upGroupPengirim');
+        const groupTglDiterima = document.getElementById('upGroupTanggalDiterima');
+        const upTglDiterimaInput = document.getElementById('upTanggalDiterima');
+
+        if (category === 'SURAT_MASUK') {
+          titleEl.innerText = 'Upload Surat Masuk';
+          pengirimLabel.innerText = 'Pengirim *';
+          groupPengirim.classList.remove('hidden');
+          groupTglDiterima.classList.remove('hidden');
+          upTglDiterimaInput.required = true;
+        } else if (category === 'SURAT_KELUAR') {
+          titleEl.innerText = 'Upload Manual Surat Keluar';
+          pengirimLabel.innerText = 'Tujuan / Penerima *';
+          groupPengirim.classList.remove('hidden');
+          groupTglDiterima.classList.add('hidden');
+          upTglDiterimaInput.required = false;
+        } else if (category === 'SURAT_SK') {
+          titleEl.innerText = 'Upload Manual SK (Surat Keputusan)';
+          groupPengirim.classList.add('hidden');
+          groupTglDiterima.classList.add('hidden');
+          upTglDiterimaInput.required = false;
         }
 
-        function submitData() {
-            const btnSubmit = document.getElementById('btnSubmit');
-            btnSubmit.innerHTML = 'Sedang Mengirim...';
-            btnSubmit.disabled = true;
+        document.getElementById('modalUpload').classList.remove('hidden');
+      }
 
-            fetch(scriptURL, { method: 'POST', body: JSON.stringify(formDataObj) })
-              .then(response => response.json())
-              .then(data => {
-                  btnSubmit.innerHTML = 'Yakin, Lanjut dan Kirim';
-                  btnSubmit.disabled = false;
-                  document.getElementById('summaryModal').style.display = 'none';
-                  document.getElementById('successModal').style.display = 'flex';
-                  if(data.pdf_link) { document.getElementById('downloadPdfBtn').href = data.pdf_link; }
+      function closeModalUpload() {
+        document.getElementById('modalUpload').classList.add('hidden');
+      }
+
+      async function handleManualUploadSubmit(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('upFile').files[0];
+        if (!fileInput) return;
+
+        const category = document.getElementById('uploadCategory').value;
+        const rawDateSurat = document.getElementById('upTanggalSurat').value;
+        const formattedDateSurat = formatDateIndonesian(rawDateSurat);
+
+        // Mengambil Tanggal Diterima khusus Surat Masuk
+        const rawDateDiterima = document.getElementById('upTanggalDiterima').value;
+        const formattedDateDiterima = category === 'SURAT_MASUK' && rawDateDiterima 
+          ? formatDateIndonesian(rawDateDiterima) 
+          : formattedDateSurat;
+
+        setButtonLoading('btnUploadSubmit', true, 'Mengunggah...', 'Upload & Simpan', 'upload-cloud');
+        showLoading('Mengunggah berkas ke Google Drive & Menyimpan ke Spreadsheet...');
+
+        const reader = new FileReader();
+        reader.onload = async function() {
+          const base64 = reader.result.split(',')[1];
+
+          try {
+            const res = await fetchWithTimeout(GAS_WEB_APP_URL, {
+              method: 'POST',
+              body: JSON.stringify({
+                action: 'uploadManual',
+                payload: {
+                  category: category,
+                  nomorSurat: document.getElementById('upNomorSurat').value,
+                  tanggalSurat: formattedDateSurat,
+                  tanggalDiterima: formattedDateDiterima,
+                  tanggalKeluar: formattedDateSurat,
+                  tanggalSK: formattedDateSurat,
+                  pengirim: document.getElementById('upPengirim').value,
+                  judulSurat: document.getElementById('upJudulSurat').value,
+                  fileBase64: base64,
+                  fileName: fileInput.name,
+                  mimeType: fileInput.type,
+                  operator: currentUser.nama
+                }
               })
-              .catch(error => {
-                  alert('Gagal mengirim data. Pastikan URL Web App sudah benar.');
-                  btnSubmit.innerHTML = 'Yakin, Lanjut dan Kirim';
-                  btnSubmit.disabled = false;
-              });
+            });
+            const result = await res.json();
+            hideLoading();
+            setButtonLoading('btnUploadSubmit', false, '', 'Upload & Simpan', 'upload-cloud');
+
+            if (result.status === 'success') {
+              showToast('Berkas berhasil diupload ke Drive & disinkronkan!');
+              closeModalUpload();
+              document.getElementById('uploadManualForm').reset();
+              syncSpreadsheetData();
+            } else {
+              showToast(result.message || 'Gagal upload file!', 'error');
+            }
+          } catch (err) {
+            hideLoading();
+            setButtonLoading('btnUploadSubmit', false, '', 'Upload & Simpan', 'upload-cloud');
+            showToast('Gagal terhubung ke server backend!', 'error');
+          }
+        };
+        reader.readAsDataURL(fileInput);
+      }
+
+      async function handleSaveSettings(e) {
+        e.preventDefault();
+        if (currentUser.role !== 'Admin') {
+          showToast('Hanya Admin / Kepala TU yang dapat mengubah Pengaturan!', 'error');
+          return;
         }
 
-        function cekStatusData() {
-            const tglInput = document.getElementById('searchTglLahir').value; 
-            const btn = document.getElementById('btnCekStatus');
-            const hasilBox = document.getElementById('hasilPencarian');
-            
-            if(!tglInput) return alert("Pilih tanggal lahir dulu!");
-            
-            const parts = tglInput.split('-'); 
-            const tglLahir = `${parts[2]}/${parts[1]}/${parts[0]}`; 
-            
-            btn.innerHTML = "Mencari...";
-            btn.disabled = true;
-            hasilBox.classList.add('hidden'); 
-            
-            fetch(`${scriptURL}?action=cekStatus&tgl=${tglLahir}`)
-            .then(res => res.json())
-            .then(data => {
-                btn.innerHTML = "Cari Data";
-                btn.disabled = false;
-                
-                if(data.status === 'sukses') {
-                    // Tampilkan kotak dan isi datanya secara presisi
-                    hasilBox.classList.remove('hidden');
-                    document.getElementById('resNama').innerText = data.data.nama;
-                    document.getElementById('resNoPendaftaran').innerText = data.data.no_pendaftaran;
-                    document.getElementById('resTglTerdaftar').innerText = data.data.tgl_terdaftar;
-                    document.getElementById('resStatus').innerText = data.data.status_lulus;
-                    
-                    const pdfBtn = document.getElementById('resPDF');
-                    // Jika link PDF tersedia di spreadsheet
-                    if(data.data.link_pdf && data.data.link_pdf !== "") {
-                        pdfBtn.href = data.data.link_pdf;
-                        pdfBtn.style.display = "block";
-                        pdfBtn.innerText = "📄 Download PDF Pendaftaran (Siap Download)";
-                        pdfBtn.className = "mt-4 block text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition-all duration-200 transform hover:scale-105";
-                        pdfBtn.onclick = null; 
-                    } else {
-                        // Jika link PDF masih kosong
-                        pdfBtn.style.display = "block";
-                        pdfBtn.href = "#";
-                        pdfBtn.innerText = "⚠️ Link PDF belum tersedia / belum digenerate";
-                        pdfBtn.className = "mt-4 block text-center bg-gray-400 text-gray-700 font-medium py-3 px-4 rounded-lg cursor-not-allowed";
-                        pdfBtn.onclick = function(e) { e.preventDefault(); alert("File formulir PDF Anda belum selesai diproses atau kolom Link PDF di sheet masih kosong."); };
-                    }
-                } else {
-                    alert("Data tidak ditemukan. Silakan periksa kembali tanggal lahir yang dimasukkan.");
-                }
-            }).catch(err => {
-                alert("Gagal terhubung ke server.");
-                btn.innerHTML = "Cari Data";
-                btn.disabled = false;
-            });
+        setButtonLoading('btnSaveSettings', true, 'Menyimpan...', 'Simpan Pengaturan', 'save');
+        showLoading('Menyimpan pengaturan sistem...');
+
+        const settings = {
+          COUNTER_SURAT_KELUAR: document.getElementById('setCounterKeluar').value,
+          COUNTER_SK: document.getElementById('setCounterSK').value,
+          NAMA_KEPALA_MADRASAH: document.getElementById('setNamaKM').value,
+          NIP_KEPALA_MADRASAH: document.getElementById('setNipKM').value,
+          FOLDER_ID_SURAT_MASUK: document.getElementById('setFolderMasuk').value,
+          FOLDER_ID_SURAT_KELUAR: document.getElementById('setFolderKeluar').value,
+          FOLDER_ID_SK: document.getElementById('setFolderSK').value,
+          TEMPLATE_ID_SKET: document.getElementById('setTemplateSKet').value,
+          TEMPLATE_ID_SKET_STEMPEL: document.getElementById('setTemplateSKetStempel').value,
+          TEMPLATE_ID_TUGAS: document.getElementById('setTemplateTugas').value,
+          TEMPLATE_ID_SPPD: document.getElementById('setTemplateSPPD').value
+        };
+
+        try {
+          const res = await fetchWithTimeout(GAS_WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'updateSettings',
+              payload: { role: currentUser.role, settings: settings }
+            })
+          });
+          const result = await res.json();
+          hideLoading();
+          setButtonLoading('btnSaveSettings', false, '', 'Simpan Pengaturan', 'save');
+
+          if (result.status === 'success') {
+            showToast('Pengaturan berhasil diperbarui!');
+            syncSpreadsheetData();
+          } else {
+            showToast(result.message || 'Gagal menyimpan settings!', 'error');
+          }
+        } catch (err) {
+          hideLoading();
+          setButtonLoading('btnSaveSettings', false, '', 'Simpan Pengaturan', 'save');
+          showToast('Gagal terhubung ke server!', 'error');
         }
+      }
+
+      async function deleteRecord(sheetName, id, btnEl) {
+        if (!confirm('Apakah Anda yakin ingin menghapus data arsip ini?')) return;
+
+        let iconEl = null;
+        if (btnEl) {
+          iconEl = btnEl.querySelector('i');
+          if (iconEl) {
+            iconEl.setAttribute('data-lucide', 'loader-2');
+            iconEl.classList.add('animate-spin');
+            lucide.createIcons();
+          }
+        }
+
+        showLoading('Menghapus data...');
+        try {
+          const res = await fetchWithTimeout(GAS_WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'deleteRecord',
+              payload: { role: currentUser.role, sheetName: sheetName, id: id }
+            })
+          });
+          const result = await res.json();
+          hideLoading();
+
+          if (result.status === 'success') {
+            showToast('Data berhasil dihapus!');
+            syncSpreadsheetData();
+          } else {
+            if (iconEl) {
+              iconEl.setAttribute('data-lucide', 'trash-2');
+              iconEl.classList.remove('animate-spin');
+              lucide.createIcons();
+            }
+            showToast(result.message || 'Gagal menghapus data!', 'error');
+          }
+        } catch (err) {
+          hideLoading();
+          if (iconEl) {
+            iconEl.setAttribute('data-lucide', 'trash-2');
+            iconEl.classList.remove('animate-spin');
+            lucide.createIcons();
+          }
+          showToast('Terjadi kesalahan server!', 'error');
+        }
+      }
     </script>
 </body>
 </html>
