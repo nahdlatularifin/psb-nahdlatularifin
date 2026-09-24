@@ -18,7 +18,7 @@
             fontFamily: { sans: ['Inter', 'sans-serif'] },
             colors: {
               brand: {
-                50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e'
+                50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a'
               }
             }
           }
@@ -29,14 +29,332 @@
     <style>
       .custom-card {
         background: #ffffff;
-        border: 2px solid #cbd5e1;
+        border: 1px solid #e2e8f0;
       }
       .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-      .custom-scrollbar::-webkit-scrollbar-track { background: #e2e8f0; }
-      .custom-scrollbar::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
     </style>
+
+<style id="emerald-modern-ui">
+:root{
+ --primary:#059669;
+ --primary-dark:#047857;
+ --soft:#ecfdf5;
+ --bg:#f8fafc;
+ --line:#e2e8f0;
+}
+body{background:var(--bg)!important;}
+#loginView{
+ background:linear-gradient(135deg,#ecfdf5 0%,#f8fafc 55%,#ffffff 100%)!important;
+}
+#loginView>div{
+ border-radius:28px!important;
+ border:1px solid #e5e7eb!important;
+ box-shadow:0 25px 60px rgba(15,23,42,.12)!important;
+ position:relative;
+ overflow:hidden;
+}
+#loginView>div:before{
+ content:"";
+ position:absolute;
+ top:0;left:0;right:0;height:5px;
+ background:linear-gradient(90deg,#059669,#10b981);
+}
+#loginView input,
+#loginView select{
+ background:#fff!important;
+ border-color:#d1d5db!important;
+ min-height:44px;
+}
+#loginView input:focus,
+#loginView select:focus{
+ border-color:#059669!important;
+ box-shadow:0 0 0 4px rgba(5,150,105,.12)!important;
+}
+#loginView button[type="submit"]{
+ background:linear-gradient(135deg,#059669,#047857)!important;
+ box-shadow:0 12px 25px rgba(5,150,105,.25)!important;
+}
+#loginView button[type="submit"]:hover{transform:translateY(-1px);}
+header{
+ background:#ffffff!important;
+ color:#0f172a!important;
+ border-bottom:1px solid #e2e8f0!important;
+ box-shadow:0 4px 18px rgba(15,23,42,.06)!important;
+}
+header h1{color:#0f172a!important;}
+header p{color:#059669!important;}
+header .bg-blue-600{
+ background:#059669!important;
+}
+.tab-btn{color:#64748b!important;}
+.tab-btn:hover{color:#059669!important;background:#ecfdf5!important;}
+.active-tab{
+ color:#059669!important;
+ background:#ecfdf5!important;
+}
+.custom-card,.bg-white{
+ border-color:#e2e8f0!important;
+}
+main .rounded-2xl,main .rounded-3xl{
+ transition:.25s ease;
+}
+main .rounded-2xl:hover,main .rounded-3xl:hover{
+ transform:translateY(-2px);
+ box-shadow:0 12px 30px rgba(15,23,42,.08);
+}
+input,select,textarea{
+ border-color:#d1d5db!important;
+ background:#fff!important;
+}
+input:focus,select:focus,textarea:focus{
+ border-color:#059669!important;
+ box-shadow:0 0 0 3px rgba(5,150,105,.12)!important;
+}
+.bg-blue-600{background:#059669!important;}
+.hover\:bg-blue-700:hover{background:#047857!important;}
+.text-blue-600,.text-blue-700,.text-blue-800{color:#047857!important;}
+.bg-blue-50{background:#ecfdf5!important;}
+.border-blue-100,.border-blue-200{border-color:#a7f3d0!important;}
+</style>
+
+<style id="final-professional-redesign">
+/* FINAL UI REDESIGN - VISUAL ONLY */
+:root{
+ --primary:#0f766e;
+ --primary2:#14b8a6;
+ --bg:#f8fafc;
+ --surface:#ffffff;
+ --text:#0f172a;
+ --muted:#64748b;
+ --border:#e2e8f0;
+}
+
+html,body{
+ background:var(--bg)!important;
+ color:var(--text);
+}
+
+/* Login */
+#loginView{
+ background:
+ radial-gradient(circle at top left, rgba(20,184,166,.12), transparent 35%),
+ linear-gradient(135deg,#f8fafc,#ecfeff)!important;
+}
+
+#loginView > div{
+ background:#fff!important;
+ border:1px solid #e2e8f0!important;
+ border-radius:26px!important;
+ box-shadow:0 24px 70px rgba(15,23,42,.12)!important;
+}
+
+#loginView > div:before{
+ display:none!important;
+}
+
+#loginView .bg-blue-600{
+ background:linear-gradient(135deg,#0f766e,#14b8a6)!important;
+}
+
+#loginView input{
+ height:48px!important;
+ background:#fff!important;
+ border:1.5px solid #cbd5e1!important;
+ color:#0f172a!important;
+ padding-left:42px!important;
+}
+
+#loginView input::placeholder{
+ color:#94a3b8!important;
+}
+
+#loginView input:focus{
+ border-color:#0f766e!important;
+ box-shadow:0 0 0 4px rgba(15,118,110,.12)!important;
+}
+
+#loginView button[type="submit"]{
+ background:linear-gradient(135deg,#0f766e,#14b8a6)!important;
+ border-radius:14px!important;
+ box-shadow:0 12px 25px rgba(15,118,110,.22)!important;
+}
+
+#loginView button[type="submit"]:hover{
+ transform:translateY(-2px);
+}
+
+/* App header tetap atas */
+#appView header{
+ background:#ffffff!important;
+ color:#0f172a!important;
+ border-bottom:1px solid #e2e8f0!important;
+ box-shadow:0 8px 25px rgba(15,23,42,.06)!important;
+}
+
+#appView header h1{
+ color:#0f172a!important;
+}
+
+#appView header p{
+ color:#0f766e!important;
+}
+
+#appView header .bg-blue-600{
+ background:#0f766e!important;
+}
+
+/* Navigation */
+.tab-btn{
+ color:#64748b!important;
+}
+
+.tab-btn:hover,
+.active-tab{
+ background:#ccfbf1!important;
+ color:#0f766e!important;
+}
+
+/* Cards */
+.bg-white.rounded-2xl,
+.bg-white.rounded-3xl,
+.custom-card{
+ border:1px solid #e2e8f0!important;
+ box-shadow:0 8px 24px rgba(15,23,42,.05)!important;
+}
+
+main .rounded-2xl,
+main .rounded-3xl{
+ transition:all .25s ease!important;
+}
+
+main .rounded-2xl:hover,
+main .rounded-3xl:hover{
+ transform:translateY(-3px);
+ box-shadow:0 18px 35px rgba(15,23,42,.09)!important;
+}
+
+/* Semua input */
+input,select,textarea{
+ background:#fff!important;
+ border:1.5px solid #cbd5e1!important;
+ color:#0f172a!important;
+}
+
+input::placeholder,
+textarea::placeholder{
+ color:#94a3b8!important;
+}
+
+input:focus,select:focus,textarea:focus{
+ border-color:#0f766e!important;
+ box-shadow:0 0 0 4px rgba(15,118,110,.12)!important;
+ outline:none!important;
+}
+
+/* Button utama */
+.bg-blue-600{
+ background:#0f766e!important;
+}
+
+.hover\:bg-blue-700:hover{
+ background:#115e59!important;
+}
+
+/* Hilangkan konflik warna biru lama */
+.text-blue-600,.text-blue-700,.text-blue-800{
+ color:#0f766e!important;
+}
+
+.bg-blue-50{
+ background:#f0fdfa!important;
+}
+
+.border-blue-100,.border-blue-200{
+ border-color:#99f6e4!important;
+}
+
+/* Table header */
+thead.bg-slate-900{
+ background:#134e4a!important;
+}
+
+/* Modal */
+#modalUpload > div{
+ border-radius:24px!important;
+ box-shadow:0 25px 60px rgba(15,23,42,.18)!important;
+}
+
+/* Smooth animation */
+button,.tab-btn,input,select,textarea{
+ transition:all .2s ease!important;
+}
+</style>
+<style id="premium-visual-only-redesign">
+:root{--p:#123b35;--p2:#0f5c4f;--accent:#c6a15b;--bg:#f5f7f6;--surface:#fff;--ink:#17231f;--muted:#718078;--line:#e4e9e6;}
+body{background:var(--bg)!important;color:var(--ink)!important}
+#loginView{background:radial-gradient(circle at 15% 10%,rgba(198,161,91,.14),transparent 28%),linear-gradient(135deg,#f4f7f5,#eef4f1 55%,#faf9f5)!important}
+#loginView>div{border:1px solid rgba(18,59,53,.10)!important;border-radius:28px!important;box-shadow:0 30px 80px rgba(18,59,53,.14)!important}
+#loginView>div:before{display:none!important}
+#loginView .bg-blue-600,#loginView button[type=submit]{background:linear-gradient(135deg,var(--p),var(--p2))!important;box-shadow:0 14px 30px rgba(18,59,53,.22)!important}
+#loginView input:focus{border-color:var(--p2)!important;box-shadow:0 0 0 4px rgba(15,92,79,.10)!important}
+#loginView .text-blue-600{color:var(--p2)!important}
+#appView header{background:rgba(255,255,255,.96)!important;color:var(--ink)!important;border-bottom:1px solid var(--line)!important;box-shadow:0 8px 30px rgba(18,59,53,.07)!important;backdrop-filter:blur(14px)}
+#appView header h1{color:var(--ink)!important} #appView header p{color:var(--p2)!important}
+#appView header .bg-blue-600{background:linear-gradient(135deg,var(--p),var(--p2))!important}
+#appView header .bg-blue-600\/20{background:rgba(15,92,79,.08)!important;border-color:rgba(15,92,79,.16)!important;color:var(--p2)!important}
+#appView header .text-blue-300,#appView header .text-blue-400{color:var(--p2)!important}
+#appView header .bg-slate-950\/50{background:#f8faf9!important;border-color:var(--line)!important}
+.tab-btn{color:#718078!important;border-radius:12px!important}.tab-btn:hover,.active-tab{color:var(--p)!important;background:#e9f3ef!important}
+.bg-white.rounded-2xl,.bg-white.rounded-3xl,.custom-card{border-color:var(--line)!important;box-shadow:0 8px 26px rgba(18,59,53,.045)!important}
+main .rounded-2xl,main .rounded-3xl{transition:transform .22s ease,box-shadow .22s ease!important}main .rounded-2xl:hover,main .rounded-3xl:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(18,59,53,.075)!important}
+input,select,textarea{border-color:#d8e0dc!important;background:#fff!important;color:var(--ink)!important}input:focus,select:focus,textarea:focus{border-color:var(--p2)!important;box-shadow:0 0 0 4px rgba(15,92,79,.09)!important;outline:none!important}
+.bg-blue-600{background:var(--p2)!important}.hover\:bg-blue-700:hover{background:var(--p)!important}.text-blue-600,.text-blue-700,.text-blue-800{color:var(--p2)!important}.bg-blue-50{background:#eef7f4!important}.border-blue-100,.border-blue-200{border-color:#cce3dc!important}
+.bg-indigo-600{background:#4f5d73!important}.bg-amber-600{background:#a4772e!important}.text-amber-600{color:#a4772e!important}
+thead.bg-slate-900{background:#173f38!important}
+#content-generator .doc-type-btn{border-radius:16px!important}#content-generator .doc-type-btn:hover{border-color:#8bb9ad!important;background:#f3f8f6!important}
+#loadingOverlay .bg-blue-600{border-color:var(--p2)!important}.selection\:bg-blue-600::selection{background:var(--p)!important}
+button{letter-spacing:.01em}
+</style>
+<style id="ultimate-contrast-ui-fix">
+:root{--ui-primary:#0b3d3a;--ui-primary-2:#0f766e;--ui-accent:#c9a227;--ui-bg:#f4f7f6;--ui-border:#d9e3e0}
+#appView{background:var(--ui-bg)!important}
+#appView>header{background:linear-gradient(135deg,#082f2c 0%,#0b3d3a 55%,#115e59 100%)!important;color:#fff!important;border-bottom:0!important;box-shadow:0 8px 30px rgba(4,35,33,.20)!important}
+#appView header h1{color:#fff!important}#appView header p{color:#b9e3dd!important}
+#appView header .bg-blue-600{background:linear-gradient(135deg,#c9a227,#e0bd4b)!important;color:#17201f!important;box-shadow:0 8px 18px rgba(201,162,39,.25)!important}
+#appView header .bg-blue-600 i{color:#17201f!important}
+#appView header>div:nth-child(2){background:#072b29!important;border-top:1px solid rgba(255,255,255,.12)!important;border-bottom:1px solid rgba(255,255,255,.10)!important;padding-top:10px!important;padding-bottom:10px!important}
+#appView header nav{gap:6px!important}
+#appView .tab-btn{color:#d5e4e1!important;background:transparent!important;border:1px solid transparent!important;border-radius:12px!important;font-weight:700!important;min-height:40px!important;opacity:1!important}
+#appView .tab-btn i{color:#a9c7c2!important;opacity:1!important}
+#appView .tab-btn:hover{color:#fff!important;background:rgba(255,255,255,.10)!important;border-color:rgba(255,255,255,.14)!important}
+#appView .tab-btn:hover i{color:#e4c75e!important}
+#appView .tab-btn.active-tab,#appView .tab-btn.active-tab:hover,#appView .active-tab{color:#17201f!important;background:linear-gradient(135deg,#d6b43b,#c9a227)!important;border-color:#efd777!important;box-shadow:0 5px 16px rgba(201,162,39,.28)!important;font-weight:800!important}
+#appView .tab-btn.active-tab i,#appView .active-tab i{color:#17201f!important}
+#appView .tab-btn:focus-visible{outline:3px solid rgba(255,255,255,.75)!important;outline-offset:2px!important}
+#appView main .bg-white{background:#fff!important;border-color:var(--ui-border)!important}
+#appView main h2,#appView main h3,#appView main h4{color:#10201f!important}
+#appView input,#appView select,#appView textarea{color:#182827!important;background:#fff!important;border-color:#c6d3d0!important}
+#appView input::placeholder,#appView textarea::placeholder{color:#7a8986!important;opacity:1!important}
+#appView input:focus,#appView select:focus,#appView textarea:focus{border-color:#0f766e!important;box-shadow:0 0 0 4px rgba(15,118,110,.13)!important}
+#appView .bg-blue-600,#appView button.bg-blue-600{background:linear-gradient(135deg,#0f766e,#0b5f5a)!important;color:#fff!important;border-color:#0f766e!important;box-shadow:0 7px 18px rgba(15,118,110,.20)!important}
+#appView .bg-blue-600:hover,#appView button.bg-blue-600:hover{background:linear-gradient(135deg,#0b5f5a,#084d49)!important;color:#fff!important}
+#appView .text-blue-600,#appView .text-blue-700,#appView .text-blue-800{color:#0b5f5a!important}
+#appView .bg-blue-50{background:#e8f5f3!important}.border-blue-100,.border-blue-200{border-color:#b7d8d3!important}
+#appView thead.bg-slate-900{background:#123f3b!important}#appView thead.bg-slate-900 th{color:#fff!important}
+#appView thead select{background:#0a302e!important;color:#f4fffd!important;border-color:#3c6762!important}
+#appView tbody tr:hover{background:#f0f7f5!important}
+#appView footer{background:#072b29!important;border-color:#184b47!important}
+#appView footer .text-slate-300{color:#e6f0ee!important}#appView footer .text-slate-400{color:#a9c0bc!important}
+#loginView{background:radial-gradient(circle at 15% 15%,rgba(201,162,39,.15),transparent 28%),radial-gradient(circle at 85% 85%,rgba(15,118,110,.18),transparent 32%),linear-gradient(135deg,#eef5f3,#f8faf9)!important}
+#loginView>div{border:1px solid #d9e3e0!important;box-shadow:0 28px 75px rgba(7,43,41,.16)!important}
+#loginView .bg-blue-600,#loginView button[type=submit]{background:linear-gradient(135deg,#0b3d3a,#0f766e)!important;color:#fff!important}
+#loginView .text-blue-600{color:#0f766e!important}
+#appView button,#appView input,#appView select,#appView textarea{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease!important}
+</style>
 </head>
-<body class="h-full font-sans text-slate-800 bg-slate-100 antialiased selection:bg-teal-600 selection:text-white flex flex-col min-h-screen">
+<body class="h-full font-sans text-slate-800 bg-slate-50 antialiased selection:bg-blue-600 selection:text-white flex flex-col min-h-screen">
 
     <!-- CONFIGURATION & APP STATE (GLOBAL) -->
     <script>
@@ -44,11 +362,11 @@
     </script>
 
     <!-- Global Loading Overlay -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none">
-        <div class="bg-white p-6 rounded-2xl shadow-2xl border-2 border-slate-300 flex flex-col items-center space-y-4 max-w-xs w-full">
+    <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl border border-slate-100 flex flex-col items-center space-y-4 max-w-xs w-full">
             <div class="relative w-12 h-12">
-                <div class="absolute inset-0 rounded-full border-4 border-teal-200 animate-ping"></div>
-                <div class="absolute inset-0 rounded-full border-4 border-teal-600 border-t-transparent animate-spin"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-blue-100 animate-ping"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div>
             </div>
             <p id="loadingText" class="text-sm font-bold text-slate-800 text-center">Memproses data...</p>
         </div>
@@ -58,38 +376,38 @@
     <div id="toastContainer" class="fixed top-20 right-5 z-50 flex flex-col space-y-3 max-w-sm w-full pointer-events-none"></div>
 
     <!-- 1. HALAMAN LOGIN -->
-    <div id="loginView" class="min-h-screen flex items-center justify-center p-4 bg-slate-900">
-        <div class="bg-white max-w-md w-full p-8 rounded-3xl shadow-2xl border-2 border-slate-300 space-y-6">
+    <div id="loginView" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900">
+        <div class="bg-white max-w-md w-full p-8 rounded-3xl shadow-2xl border border-white/20 space-y-6">
             <div class="text-center space-y-2">
-                <div class="w-16 h-16 bg-teal-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-teal-600/30">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30">
                     <i data-lucide="file-text" class="w-8 h-8 text-white"></i>
                 </div>
                 <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Persuratan MA</h2>
-                <p class="text-xs text-slate-600 uppercase tracking-widest font-bold">MA Nahdlatul Arifin</p>
+                <p class="text-xs text-blue-600 uppercase tracking-widest font-extrabold">MA Nahdlatul Arifin</p>
             </div>
 
             <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Username</label>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Username</label>
                     <div class="relative">
-                        <i data-lucide="user" class="w-5 h-5 absolute left-3 top-2.5 text-slate-500"></i>
-                        <input type="text" id="loginUsername" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all text-sm font-medium text-slate-900 placeholder-slate-400" placeholder="Masukkan username">
+                        <i data-lucide="user" class="w-5 h-5 absolute left-3 top-2.5 text-slate-400"></i>
+                        <input type="text" id="loginUsername" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all text-sm font-medium text-slate-900 placeholder-slate-400" placeholder="Masukkan username">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Password</label>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Password</label>
                     <div class="relative">
-                        <i data-lucide="lock" class="w-5 h-5 absolute left-3 top-2.5 text-slate-500"></i>
-                        <input type="password" id="loginPassword" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all text-sm font-medium text-slate-900 placeholder-slate-400" placeholder="••••••••">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-3 top-2.5 text-slate-400"></i>
+                        <input type="password" id="loginPassword" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all text-sm font-medium text-slate-900 placeholder-slate-400" placeholder="••••••••">
                     </div>
                 </div>
-                <button type="submit" id="btnLoginSubmit" class="w-full py-3 bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white rounded-xl font-bold shadow-lg shadow-teal-600/30 transition-all flex items-center justify-center space-x-2">
+                <button type="submit" id="btnLoginSubmit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl font-bold shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center space-x-2">
                     <span id="btnLoginText">Masuk ke Sistem</span>
                     <i id="btnLoginIcon" data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </form>
 
-            <div class="text-center text-xs font-semibold text-slate-500 space-y-1 border-t border-slate-200 pt-4">
+            <div class="text-center text-xs font-semibold text-slate-500 space-y-1 border-t border-slate-100 pt-4">
                 <p>Sistem Informasi Persuratan Terpadu &copy; 2026</p>
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight">(APLIKASI INI DIBUAT DAN DIKEMBANGKAN OLEH NUR M. IKBALILMAROM, S.Pd., M.Pd)</p>
             </div>
@@ -97,38 +415,38 @@
     </div>
 
     <!-- 2. MAIN DASHBOARD APP -->
-    <div id="appView" class="hidden min-h-screen flex flex-col bg-slate-100">
+    <div id="appView" class="hidden min-h-screen flex flex-col bg-slate-50">
         <!-- Header Navigasi -->
-        <header class="bg-slate-900 sticky top-0 z-40 border-b-2 border-slate-700 text-white shadow-md">
+        <header class="bg-slate-900 sticky top-0 z-40 border-b border-slate-800 text-white shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center text-slate-900 font-bold shadow-md">
+                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-md shadow-blue-600/30">
                         <i data-lucide="file-text" class="w-6 h-6"></i>
                     </div>
                     <div>
                         <h1 class="text-base font-extrabold text-white leading-tight">MA Nahdlatul Arifin</h1>
-                        <p class="text-xs text-slate-300 font-medium">Persuratan & Pengarsipan Digital</p>
+                        <p class="text-xs text-blue-300 font-medium">Persuratan & Pengarsipan Digital</p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-3">
-                    <button onclick="syncSpreadsheetData()" title="Muat Ulang / Refresh Data Google Spreadsheet" class="flex items-center space-x-1.5 px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 text-white rounded-lg text-xs font-bold border border-emerald-500 shadow-sm transition-all">
+                    <button onclick="syncSpreadsheetData()" title="Muat Ulang / Refresh Data Google Spreadsheet" class="flex items-center space-x-1.5 px-3 py-1.5 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 rounded-lg text-xs font-bold transition-all">
                         <i id="syncIcon" data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                         <span class="hidden sm:inline">Sync Sheets</span>
                     </button>
 
                     <div class="text-right hidden sm:block">
                         <p id="userDisplayName" class="text-sm font-bold text-white">-</p>
-                        <span id="userRoleBadge" class="inline-block px-2 py-0.5 text-[10px] font-extrabold rounded-md bg-teal-400 text-slate-900 uppercase tracking-wider">-</span>
+                        <span id="userRoleBadge" class="inline-block px-2 py-0.5 text-[10px] font-extrabold rounded-md bg-blue-500/20 text-blue-300 border border-blue-400/30 uppercase tracking-wider">-</span>
                     </div>
-                    <button onclick="logout()" title="Keluar" class="p-2 text-slate-300 hover:text-white hover:bg-red-600 rounded-xl transition-all">
+                    <button onclick="logout()" title="Keluar" class="p-2 text-slate-400 hover:text-white hover:bg-rose-600/80 rounded-xl transition-all">
                         <i data-lucide="log-out" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
             
             <!-- Menu Navigasi -->
-            <div class="bg-slate-800 border-t border-slate-700 px-4 sm:px-6 lg:px-8 py-2">
+            <div class="bg-slate-950/50 border-t border-slate-800/80 px-4 sm:px-6 lg:px-8 py-2">
                 <nav class="max-w-7xl mx-auto flex space-x-2 overflow-x-auto custom-scrollbar">
                     <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn active-tab flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition-all text-slate-300 hover:text-white whitespace-nowrap">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
@@ -162,14 +480,14 @@
         <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
             <!-- Kartu Notifikasi Status Loading Pemuatan Data Spreadsheet -->
-            <div id="dataSyncStatusCard" class="bg-amber-500/10 border-2 border-amber-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all">
+            <div id="dataSyncStatusCard" class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all">
                 <div class="flex items-center space-x-3">
                     <div id="dataSyncStatusBadge" class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center font-bold">
                         <i id="dataSyncStatusIcon" data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
                     </div>
                     <div>
                         <h4 id="dataSyncStatusTitle" class="text-xs font-extrabold text-slate-900 uppercase tracking-wide">Sedang Memuat Data Google Spreadsheet...</h4>
-                        <p id="dataSyncStatusDesc" class="text-[11px] font-semibold text-slate-600">Mohon tunggu sebentar, sistem sedang melakukan sinkronisasi data arsip terbaru.</p>
+                        <p id="dataSyncStatusDesc" class="text-[11px] font-medium text-slate-600">Mohon tunggu sebentar, sistem sedang melakukan sinkronisasi data arsip terbaru.</p>
                     </div>
                 </div>
                 <button onclick="syncSpreadsheetData()" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center space-x-1 shrink-0">
@@ -182,48 +500,48 @@
             <section id="content-dashboard" class="tab-content space-y-6">
                 <!-- Counter & Stats Widget -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Surat Masuk</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Surat Masuk</p>
                             <h3 id="statTotalMasuk" class="text-3xl font-extrabold text-slate-900 mt-1">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-emerald-100 border border-emerald-300 rounded-xl flex items-center justify-center text-emerald-700">
+                        <div class="w-12 h-12 bg-sky-50 border border-sky-100 rounded-xl flex items-center justify-center text-sky-600">
                             <i data-lucide="arrow-down-left" class="w-6 h-6"></i>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Surat Keluar</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Surat Keluar</p>
                             <h3 id="statTotalKeluar" class="text-3xl font-extrabold text-slate-900 mt-1">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-blue-100 border border-blue-300 rounded-xl flex items-center justify-center text-blue-700">
+                        <div class="w-12 h-12 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center text-blue-600">
                             <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nomor Keluar Terakhir</p>
-                            <h3 id="statCounterKeluar" class="text-3xl font-extrabold text-indigo-700 mt-1">0</h3>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Nomor Keluar Terakhir</p>
+                            <h3 id="statCounterKeluar" class="text-3xl font-extrabold text-blue-700 mt-1">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-indigo-100 border border-indigo-300 rounded-xl flex items-center justify-center text-indigo-700">
+                        <div class="w-12 h-12 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
                             <i data-lucide="hash" class="w-6 h-6"></i>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm flex items-center justify-between">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nomor SK Terakhir</p>
-                            <h3 id="statCounterSK" class="text-3xl font-extrabold text-amber-700 mt-1">0</h3>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Nomor SK Terakhir</p>
+                            <h3 id="statCounterSK" class="text-3xl font-extrabold text-amber-600 mt-1">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-amber-100 border border-amber-300 rounded-xl flex items-center justify-center text-amber-700">
+                        <div class="w-12 h-12 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center text-amber-600">
                             <i data-lucide="award" class="w-6 h-6"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Live Preview Number Generator Card -->
-                <div class="bg-slate-900 p-6 rounded-3xl border-2 border-slate-700 text-white shadow-xl space-y-5">
+                <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 text-white shadow-xl space-y-5">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                        <span class="text-xs font-extrabold uppercase tracking-wider text-teal-400 flex items-center gap-2">
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-blue-400 flex items-center gap-2">
                             <i data-lucide="cpu" class="w-4 h-4"></i> Generator Format Nomor Surat Real-Time
                         </span>
                         <span class="text-[11px] font-bold bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-slate-300">Format Standar MA</span>
@@ -232,7 +550,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-slate-900 text-xs">
                         <div>
                             <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Sifat Surat</label>
-                            <select id="genStatus" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500">
+                            <select id="genStatus" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border border-slate-300 font-bold focus:outline-none focus:border-blue-500">
                                 <option value="B">BIASA (B)</option>
                                 <option value="R">RAHASIA (R)</option>
                                 <option value="SR">SANGAT RAHASIA (SR)</option>
@@ -240,7 +558,7 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Kode Jabatan</label>
-                            <select id="genKodeJabatan" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500">
+                            <select id="genKodeJabatan" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border border-slate-300 font-bold focus:outline-none focus:border-blue-500">
                                 <option value="01">01 - Kepala Madrasah</option>
                                 <option value="00">00 - Ketua Yayasan</option>
                                 <option value="02">02 - Waka Kurikulum</option>
@@ -252,7 +570,7 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Jenis Surat</label>
-                            <select id="genJenisSurat" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500">
+                            <select id="genJenisSurat" onchange="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border border-slate-300 font-bold focus:outline-none focus:border-blue-500">
                                 <option value="SPm">SPm - Surat Permohonan</option>
                                 <option value="SKu">SKu - Surat Kuasa</option>
                                 <option value="EDR">EDR - Edaran</option>
@@ -264,24 +582,24 @@
                         </div>
                         <div>
                             <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase">Nomor Urut</label>
-                            <input type="number" id="genCustomCounter" onchange="updateNumberPreview()" onkeyup="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border-2 border-slate-300 font-bold focus:outline-none focus:border-teal-500" placeholder="Nomor Urut">
+                            <input type="number" id="genCustomCounter" onchange="updateNumberPreview()" onkeyup="updateNumberPreview()" class="w-full p-2.5 rounded-xl bg-slate-100 border border-slate-300 font-bold focus:outline-none focus:border-blue-500" placeholder="Nomor Urut">
                         </div>
                     </div>
 
                     <div class="pt-3 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div class="space-y-1">
                             <p class="text-xs font-bold text-slate-400">Hasil Format Penomoran Surat Otomatis:</p>
-                            <div id="previewNumberResult" class="font-mono text-lg font-black text-teal-300 tracking-wide bg-slate-950 p-3 rounded-xl border border-slate-800 select-all">
+                            <div id="previewNumberResult" class="font-mono text-lg font-black text-blue-400 tracking-wide bg-slate-950 p-3 rounded-xl border border-slate-800 select-all">
                                 -
                             </div>
                         </div>
                         
                         <div class="flex items-center gap-2">
-                            <button onclick="copyGeneratedNumber()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white rounded-xl text-xs font-bold flex items-center justify-center space-x-2 transition-all">
-                                <i data-lucide="copy" class="w-4 h-4 text-teal-400"></i>
+                            <button onclick="copyGeneratedNumber()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-xl text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+                                <i data-lucide="copy" class="w-4 h-4 text-blue-400"></i>
                                 <span>Salin Nomor</span>
                             </button>
-                            <button onclick="useNumberAndCreateDoc()" class="px-5 py-3 bg-teal-500 hover:bg-teal-400 text-slate-900 rounded-xl text-xs font-extrabold flex items-center justify-center space-x-2 shadow-lg shadow-teal-500/20 transition-all">
+                            <button onclick="useNumberAndCreateDoc()" class="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-extrabold flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/30 transition-all">
                                 <i data-lucide="file-plus" class="w-4 h-4"></i>
                                 <span>Buat Nomor Surat</span>
                             </button>
@@ -292,54 +610,54 @@
 
             <!-- TAB 2: SURAT MASUK -->
             <section id="content-surat-masuk" class="tab-content hidden space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-300">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h2 class="text-base font-extrabold text-slate-900">Arsip Surat Masuk</h2>
-                    <button onclick="openModalUpload('SURAT_MASUK')" class="px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center justify-center space-x-2 transition-all">
+                    <button onclick="openModalUpload('SURAT_MASUK')" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 flex items-center justify-center space-x-2 transition-all">
                         <i data-lucide="upload" class="w-4 h-4"></i>
                         <span>Upload Surat Masuk</span>
                     </button>
                 </div>
 
-                <div class="bg-white p-3 rounded-2xl border-2 border-slate-300 shadow-sm">
+                <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="relative">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
-                        <input type="text" id="searchSuratMasuk" onkeyup="filterSuratTable('tableSuratMasuk', 'searchSuratMasuk')" placeholder="Cari surat masuk berdasarkan nomor, pengirim, judul, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        <input type="text" id="searchSuratMasuk" onkeyup="filterSuratTable('tableSuratMasuk', 'searchSuratMasuk')" placeholder="Cari surat masuk berdasarkan nomor, pengirim, judul, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-sm">
+                <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
-                            <thead class="bg-slate-800 text-white font-bold uppercase tracking-wider">
+                            <thead class="bg-slate-900 text-white font-bold uppercase tracking-wider">
                                 <tr>
-                                    <th class="p-3 border-b border-slate-700">
+                                    <th class="p-3.5 border-b border-slate-800">
                                         <div class="space-y-1">
                                             <span>Tgl Diterima</span>
-                                            <select id="filterMasukTgl" onchange="applyColumnFilter('tableSuratMasuk')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                            <select id="filterMasukTgl" onchange="applyColumnFilter('tableSuratMasuk')" class="block w-full p-1 bg-slate-800 text-slate-200 border border-slate-700 rounded text-[10px] font-normal focus:outline-none">
                                                 <option value="">Semua Tanggal</option>
                                             </select>
                                         </div>
                                     </th>
-                                    <th class="p-3 border-b border-slate-700">
+                                    <th class="p-3.5 border-b border-slate-800">
                                         <div class="space-y-1">
                                             <span>Nomor Surat</span>
                                         </div>
                                     </th>
-                                    <th class="p-3 border-b border-slate-700">
+                                    <th class="p-3.5 border-b border-slate-800">
                                         <div class="space-y-1">
                                             <span>Pengirim</span>
-                                            <select id="filterMasukPengirim" onchange="applyColumnFilter('tableSuratMasuk')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                            <select id="filterMasukPengirim" onchange="applyColumnFilter('tableSuratMasuk')" class="block w-full p-1 bg-slate-800 text-slate-200 border border-slate-700 rounded text-[10px] font-normal focus:outline-none">
                                                 <option value="">Semua Pengirim</option>
                                             </select>
                                         </div>
                                     </th>
-                                    <th class="p-3 border-b border-slate-700">Judul / Perihal</th>
-                                    <th class="p-3 border-b border-slate-700">Berkas</th>
-                                    <th class="p-3 border-b border-slate-700 text-center">Aksi</th>
+                                    <th class="p-3.5 border-b border-slate-800">Judul / Perihal</th>
+                                    <th class="p-3.5 border-b border-slate-800">Berkas</th>
+                                    <th class="p-3.5 border-b border-slate-800 text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableSuratMasuk" class="divide-y-2 divide-slate-200 font-medium">
-                                <tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Memuat data...</td></tr>
+                            <tbody id="tableSuratMasuk" class="divide-y divide-slate-100 font-medium text-slate-700">
+                                <tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Memuat data...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -348,50 +666,50 @@
 
             <!-- TAB 3: SURAT KELUAR -->
             <section id="content-surat-keluar" class="tab-content hidden space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-300">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h2 class="text-base font-extrabold text-slate-900">Arsip Surat Keluar</h2>
-                    <button onclick="openModalUpload('SURAT_KELUAR')" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center justify-center space-x-2 transition-all">
+                    <button onclick="openModalUpload('SURAT_KELUAR')" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 flex items-center justify-center space-x-2 transition-all">
                         <i data-lucide="upload" class="w-4 h-4"></i>
                         <span>Upload Manual Surat Keluar</span>
                     </button>
                 </div>
 
-                <div class="bg-white p-3 rounded-2xl border-2 border-slate-300 shadow-sm">
+                <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="relative">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
-                        <input type="text" id="searchSuratKeluar" onkeyup="filterSuratTable('tableSuratKeluar', 'searchSuratKeluar')" placeholder="Cari surat keluar berdasarkan nomor, tujuan, perihal, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="text" id="searchSuratKeluar" onkeyup="filterSuratTable('tableSuratKeluar', 'searchSuratKeluar')" placeholder="Cari surat keluar berdasarkan nomor, tujuan, perihal, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-sm">
+                <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
-                            <thead class="bg-slate-800 text-white font-bold uppercase tracking-wider">
+                            <thead class="bg-slate-900 text-white font-bold uppercase tracking-wider">
                                 <tr>
-                                    <th class="p-3 border-b border-slate-700">
+                                    <th class="p-3.5 border-b border-slate-800">
                                         <div class="space-y-1">
                                             <span>Tgl Keluar</span>
-                                            <select id="filterKeluarTgl" onchange="applyColumnFilter('tableSuratKeluar')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                            <select id="filterKeluarTgl" onchange="applyColumnFilter('tableSuratKeluar')" class="block w-full p-1 bg-slate-800 text-slate-200 border border-slate-700 rounded text-[10px] font-normal focus:outline-none">
                                                 <option value="">Semua Tanggal</option>
                                             </select>
                                         </div>
                                     </th>
-                                    <th class="p-3 border-b border-slate-700">Nomor Surat</th>
-                                    <th class="p-3 border-b border-slate-700">
+                                    <th class="p-3.5 border-b border-slate-800">Nomor Surat</th>
+                                    <th class="p-3.5 border-b border-slate-800">
                                         <div class="space-y-1">
                                             <span>Tujuan / Penerima</span>
-                                            <select id="filterKeluarTujuan" onchange="applyColumnFilter('tableSuratKeluar')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                            <select id="filterKeluarTujuan" onchange="applyColumnFilter('tableSuratKeluar')" class="block w-full p-1 bg-slate-800 text-slate-200 border border-slate-700 rounded text-[10px] font-normal focus:outline-none">
                                                 <option value="">Semua Tujuan</option>
                                             </select>
                                         </div>
                                     </th>
-                                    <th class="p-3 border-b border-slate-700">Judul / Perihal</th>
-                                    <th class="p-3 border-b border-slate-700">Berkas PDF</th>
-                                    <th class="p-3 border-b border-slate-700 text-center">Aksi</th>
+                                    <th class="p-3.5 border-b border-slate-800">Judul / Perihal</th>
+                                    <th class="p-3.5 border-b border-slate-800">Berkas PDF</th>
+                                    <th class="p-3.5 border-b border-slate-800 text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableSuratKeluar" class="divide-y-2 divide-slate-200 font-medium">
-                                <tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Memuat data...</td></tr>
+                            <tbody id="tableSuratKeluar" class="divide-y divide-slate-100 font-medium text-slate-700">
+                                <tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Memuat data...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -400,42 +718,42 @@
 
             <!-- TAB ARSIP SK -->
             <section id="content-surat-sk" class="tab-content hidden space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border-2 border-slate-300">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
                     <h2 class="text-base font-extrabold text-slate-900">Arsip Surat Keputusan (SK)</h2>
-                    <button onclick="openModalUpload('SURAT_SK')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md flex items-center justify-center space-x-2 transition-all">
+                    <button onclick="openModalUpload('SURAT_SK')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/20 flex items-center justify-center space-x-2 transition-all">
                         <i data-lucide="upload" class="w-4 h-4"></i>
                         <span>Upload Manual SK</span>
                     </button>
                 </div>
 
-                <div class="bg-white p-3 rounded-2xl border-2 border-slate-300 shadow-sm">
+                <div class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm">
                     <div class="relative">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
-                        <input type="text" id="searchSuratSK" onkeyup="filterSuratTable('tableSuratSK', 'searchSuratSK')" placeholder="Cari SK berdasarkan nomor, perihal/tentang, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" id="searchSuratSK" onkeyup="filterSuratTable('tableSuratSK', 'searchSuratSK')" placeholder="Cari SK berdasarkan nomor, perihal/tentang, atau tanggal (DD-MM-YYYY)..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500">
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border-2 border-slate-300 overflow-hidden shadow-sm">
+                <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
-                            <thead class="bg-slate-800 text-white font-bold uppercase tracking-wider">
+                            <thead class="bg-slate-900 text-white font-bold uppercase tracking-wider">
                                 <tr>
-                                    <th class="p-3 border-b border-slate-700">
+                                    <th class="p-3.5 border-b border-slate-800">
                                         <div class="space-y-1">
                                             <span>Tgl Penetapan SK</span>
-                                            <select id="filterSKTgl" onchange="applyColumnFilter('tableSuratSK')" class="block w-full p-1 bg-slate-700 text-slate-200 border border-slate-600 rounded text-[10px] font-normal focus:outline-none">
+                                            <select id="filterSKTgl" onchange="applyColumnFilter('tableSuratSK')" class="block w-full p-1 bg-slate-800 text-slate-200 border border-slate-700 rounded text-[10px] font-normal focus:outline-none">
                                                 <option value="">Semua Tanggal</option>
                                             </select>
                                         </div>
                                     </th>
-                                    <th class="p-3 border-b border-slate-700">Nomor SK</th>
-                                    <th class="p-3 border-b border-slate-700">Tentang / Perihal SK</th>
-                                    <th class="p-3 border-b border-slate-700">Berkas PDF SK</th>
-                                    <th class="p-3 border-b border-slate-700 text-center">Aksi</th>
+                                    <th class="p-3.5 border-b border-slate-800">Nomor SK</th>
+                                    <th class="p-3.5 border-b border-slate-800">Tentang / Perihal SK</th>
+                                    <th class="p-3.5 border-b border-slate-800">Berkas PDF SK</th>
+                                    <th class="p-3.5 border-b border-slate-800 text-center">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableSuratSK" class="divide-y-2 divide-slate-200 font-medium">
-                                <tr><td colspan="5" class="p-4 text-center text-slate-500 font-bold">Memuat data SK...</td></tr>
+                            <tbody id="tableSuratSK" class="divide-y divide-slate-100 font-medium text-slate-700">
+                                <tr><td colspan="5" class="p-4 text-center text-slate-400 font-bold">Memuat data SK...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -444,24 +762,24 @@
 
             <!-- TAB 4: GENERATOR SURAT -->
             <section id="content-generator" class="tab-content hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-300 shadow-sm space-y-6">
-                    <div class="border-b-2 border-slate-200 pb-4">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
                         <h2 class="text-lg font-extrabold text-slate-900">Generator Cetak Dokumen Persuratan</h2>
-                        <p class="text-xs text-slate-600 font-medium">Pilih jenis surat untuk memuat formulir isian dokumen otomatis.</p>
+                        <p class="text-xs text-slate-500 font-medium">Pilih jenis surat untuk memuat formulir isian dokumen otomatis.</p>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <button onclick="selectDocType('SKET')" id="btnTypeSKET" class="doc-type-btn border-2 border-teal-600 bg-teal-50 p-4 rounded-2xl text-left transition-all">
-                            <p class="text-xs font-black text-teal-900">Surat Keterangan Aktif</p>
+                        <button onclick="selectDocType('SKET')" id="btnTypeSKET" class="doc-type-btn border-2 border-blue-600 bg-blue-50/50 p-4 rounded-2xl text-left transition-all">
+                            <p class="text-xs font-black text-blue-900">Surat Keterangan Aktif</p>
                             <p class="text-[11px] text-slate-600 font-semibold mt-1">Siswa Aktif Madrasah</p>
                         </button>
-                        <button onclick="selectDocType('TUGAS')" id="btnTypeTUGAS" class="doc-type-btn border-2 border-slate-300 p-4 rounded-2xl text-left transition-all hover:border-teal-500 bg-slate-50">
+                        <button onclick="selectDocType('TUGAS')" id="btnTypeTUGAS" class="doc-type-btn border-2 border-slate-200 p-4 rounded-2xl text-left transition-all hover:border-blue-500 bg-slate-50">
                             <p class="text-xs font-black text-slate-900">Surat Tugas</p>
                             <p class="text-[11px] text-slate-600 font-semibold mt-1">Penugasan Guru & Staf</p>
                         </button>
-                        <button onclick="selectDocType('SPPD')" id="btnTypeSPPD" class="doc-type-btn border-2 border-slate-300 p-4 rounded-2xl text-left transition-all hover:border-teal-500 bg-slate-50">
+                        <button onclick="selectDocType('SPPD')" id="btnTypeSPPD" class="doc-type-btn border-2 border-slate-200 p-4 rounded-2xl text-left transition-all hover:border-blue-500 bg-slate-50">
                             <p class="text-xs font-black text-slate-900">SPPD Dinas</p>
-                            <p class="text-[11px] text-slate-600 font-semibold mt-1">Tabel Kolom Editable</p>
+                            <p class="text-[11px] text-slate-600 font-semibold mt-1">Surat Perintah Perjalanan Dinas</p>
                         </button>
                     </div>
 
@@ -472,11 +790,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Judul / Perihal Surat *</label>
-                                <input type="text" id="genJudulSurat" required class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-teal-500 focus:bg-white focus:outline-none" placeholder="Misal: Surat Keterangan Aktif Siswa a.n Ahmad">
+                                <input type="text" id="genJudulSurat" required class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none" placeholder="Misal: Surat Keterangan Perjalanan Dinas a.n Ahmad">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Surat (Otomatis/Custom) *</label>
-                                <input type="text" id="genAutoNomorSurat" required class="w-full p-2.5 rounded-xl border-2 border-slate-300 text-xs font-mono font-bold text-teal-800 bg-teal-50 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                                <input type="text" id="genAutoNomorSurat" required class="w-full p-2.5 rounded-xl border border-blue-200 text-xs font-mono font-bold text-blue-900 bg-blue-50/50 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                             </div>
                         </div>
 
@@ -486,103 +804,120 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Siswa</label>
-                                    <input type="text" id="sketNamaSiswa" placeholder="Nama Siswa" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="sketNamaSiswa" placeholder="Nama Siswa" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Tempat, Tanggal Lahir</label>
-                                    <input type="text" id="sketTTL" placeholder="Tempat, Tanggal Lahir" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="sketTTL" placeholder="Tempat, Tanggal Lahir" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">NIS / NISN</label>
-                                    <input type="text" id="sketNISN" placeholder="NIS / NISN" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="sketNISN" placeholder="NIS / NISN" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Kelas</label>
-                                    <input type="text" id="sketKelas" placeholder="Kelas" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="sketKelas" placeholder="Kelas" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-600 mb-1">Alamat Asal Siswa</label>
-                                <textarea id="sketAlamat" placeholder="Alamat Asal Siswa" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold h-20"></textarea>
+                                <textarea id="sketAlamat" placeholder="Alamat Asal Siswa" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold h-20"></textarea>
                             </div>
                         </div>
 
-                        <!-- 2. TUGAS FIELDS -->
+                        <!-- 2. TUGAS FIELDS (REVISI PILIHAN DROPDOWN NAMA GURU) -->
                         <div id="fieldsTUGAS" class="hidden space-y-4 pt-2">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Sumber Surat / Dasar Tugas</label>
-                                    <input type="text" id="tugasSumberSurat" placeholder="Sumber Surat / Dasar Tugas" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="tugasSumberSurat" placeholder="Sumber Surat / Dasar Tugas" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Perihal Tugas</label>
-                                    <input type="text" id="tugasPerihal" placeholder="Perihal Tugas" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="tugasPerihal" placeholder="Perihal Tugas" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Nomor Surat (Sumber)</label>
+                                    <input type="text" id="tugasNomorSuratSumber" placeholder="Masukkan Nomor Surat (Sumber)" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Guru / Pegawai</label>
-                                    <input type="text" id="tugasNamaGuru" placeholder="Nama Guru / Pegawai Ditugaskan" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <select id="tugasNamaGuru" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none">
+                                        <option value="">-- Pilih Nama Guru / Pegawai --</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Jabatan Guru</label>
-                                    <input type="text" id="tugasJabatanGuru" placeholder="Jabatan Guru" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold">
+                                    <input type="text" id="tugasJabatanGuru" placeholder="Jabatan Guru" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
                                 </div>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-600 mb-1">Detail Tugas</label>
-                                <textarea id="tugasDetail" placeholder="Detail Instansi / Tugas yang diberikan" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-semibold h-20"></textarea>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Hari/Tanggal Penugasan</label>
+                                    <input type="text" id="tugasHariTanggal" placeholder="Misal: Senin, 12 Mei 2026" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Tempat Penugasan</label>
+                                    <input type="text" id="tugasTempat" placeholder="Misal: Aula Kantor Kemenag Kabupaten" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 3. SPPD FIELDS -->
+                        <!-- 3. SPPD FIELDS (REVISI PILIHAN DROPDOWN NAMA PEGAWAI) -->
                         <div id="fieldsSPPD" class="hidden space-y-4 pt-2">
-                            <div class="flex items-center justify-between">
-                                <label class="text-xs font-bold text-slate-800">Rincian Kolom SPPD Dinas (Editable Table)</label>
-                                <button type="button" onclick="addSPPDRow()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center space-x-1 shadow-sm">
-                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                                    <span>Tambah Baris</span>
-                                </button>
-                            </div>
-                            <div class="overflow-x-auto border-2 border-slate-300 rounded-xl">
-                                <table id="tableSPPD" class="w-full text-xs text-left">
-                                    <thead class="bg-slate-800 text-white font-bold">
-                                        <tr>
-                                            <th class="p-2.5 w-12 text-center">No</th>
-                                            <th class="p-2.5">Pejabat / Pegawai</th>
-                                            <th class="p-2.5">Maksud Perjalanan Dinas</th>
-                                            <th class="p-2.5">Tujuan</th>
-                                            <th class="p-2.5">Lama Perjalanan</th>
-                                            <th class="p-2.5 w-10 text-center">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbodySPPD" class="divide-y-2 divide-slate-200">
-                                        <tr>
-                                            <td class="p-2 text-center font-bold">1</td>
-                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-pegawai" placeholder="Nama/Jabatan"></td>
-                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-maksud" placeholder="Maksud Perjalanan"></td>
-                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-tujuan" placeholder="Kota Tujuan"></td>
-                                            <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-lama" placeholder="3 Hari"></td>
-                                            <td class="p-2 text-center">
-                                                <button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Pegawai yang Ditugaskan</label>
+                                    <select id="sppdNamaPegawai" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none">
+                                        <option value="">-- Pilih Nama Pegawai --</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Jabatan</label>
+                                    <input type="text" id="sppdJabatan" placeholder="Masukkan jabatan" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Maksud Perjalanan Dinas</label>
+                                    <input type="text" id="sppdMaksud" placeholder="Maksud perjalanan dinas" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Alat Angkut</label>
+                                    <input type="text" id="sppdAlatAngkut" placeholder="Misal: Kendaraan Umum / Mobil Dinas" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Tempat Tujuan</label>
+                                    <input type="text" id="sppdTempatTujuan" placeholder="Misal: Kota Surabaya" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Alamat Tujuan</label>
+                                    <input type="text" id="sppdAlamatTujuan" placeholder="Alamat lengkap tujuan" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Lama Perjalanan</label>
+                                    <input type="text" id="sppdLamaPerjalanan" placeholder="Misal: 3 (Tiga) Hari" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Berangkat</label>
+                                    <input type="text" id="sppdTanggalBerangkat" placeholder="Misal: 12 Mei 2026" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Tiba</label>
+                                    <input type="text" id="sppdTanggalTiba" placeholder="Misal: 14 Mei 2026" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold">
+                                </div>
                             </div>
                         </div>
 
                         <div class="pt-4 flex justify-end">
                             <div id="btnGroupSKET" class="flex flex-wrap gap-2">
-                                <button type="button" id="btnGenSKETNoStamp" onclick="submitGenerateWithStamp(false)" class="px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-lg text-xs flex items-center space-x-2 transition-all">
+                                <button type="button" id="btnGenSKETNoStamp" onclick="submitGenerateWithStamp(false)" class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20 text-xs flex items-center space-x-2 transition-all">
                                     <i data-lucide="file-check" class="w-4 h-4 btn-icon"></i>
                                     <span class="btn-text">Generate PDF (Tanpa Stempel)</span>
                                 </button>
-                                <button type="button" id="btnGenSKETStamp" onclick="submitGenerateWithStamp(true)" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-lg text-xs flex items-center space-x-2 transition-all">
+                                <button type="button" id="btnGenSKETStamp" onclick="submitGenerateWithStamp(true)" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-600/20 text-xs flex items-center space-x-2 transition-all">
                                     <i data-lucide="stamp" class="w-4 h-4 btn-icon"></i>
                                     <span class="btn-text">Generate PDF (Dengan Stempel)</span>
                                 </button>
                             </div>
                             <div id="btnGroupStandard" class="hidden">
-                                <button type="submit" id="btnGenStandard" class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold shadow-lg text-xs flex items-center space-x-2 transition-all">
+                                <button type="submit" id="btnGenStandard" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20 text-xs flex items-center space-x-2 transition-all">
                                     <i data-lucide="file-check" class="w-4 h-4 btn-icon"></i>
                                     <span class="btn-text">Generate PDF & Simpan ke Drive</span>
                                 </button>
@@ -594,62 +929,62 @@
 
             <!-- TAB 5: SETTINGS -->
             <section id="content-settings" class="tab-content hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl border-2 border-slate-300 shadow-sm space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
                     <div>
                         <h2 class="text-lg font-extrabold text-slate-900">Pengaturan Sistem Persuratan</h2>
-                        <p class="text-xs text-slate-600 font-medium">Atur nomor counter, nama Kepala Madrasah, serta ID Google Docs/Drive.</p>
+                        <p class="text-xs text-slate-500 font-medium">Atur nomor counter, nama Kepala Madrasah, serta ID Google Docs/Drive.</p>
                     </div>
 
                     <form id="settingsForm" onsubmit="handleSaveSettings(event)" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Counter Urut Terakhir Surat Keluar Standar</label>
-                                <input type="number" id="setCounterKeluar" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 font-mono text-xs font-bold text-slate-900">
+                                <input type="number" id="setCounterKeluar" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 font-mono text-xs font-bold text-slate-900">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Counter Urut Terakhir Surat Keputusan (SK)</label>
-                                <input type="number" id="setCounterSK" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 font-mono text-xs font-bold text-slate-900">
+                                <input type="number" id="setCounterSK" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 font-mono text-xs font-bold text-slate-900">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Nama Kepala Madrasah</label>
-                                <input type="text" id="setNamaKM" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold text-slate-900">
+                                <input type="text" id="setNamaKM" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-900">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">NIP Kepala Madrasah</label>
-                                <input type="text" id="setNipKM" class="w-full p-2.5 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold text-slate-900">
+                                <input type="text" id="setNipKM" class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-900">
                             </div>
                         </div>
 
-                        <div class="border-t-2 border-slate-200 pt-4 space-y-4">
+                        <div class="border-t border-slate-100 pt-4 space-y-4">
                             <h3 class="text-xs font-black text-slate-800 uppercase tracking-wider">Integrasi Google Drive & Docs ID</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Folder ID Surat Masuk</label>
-                                    <input type="text" id="setFolderMasuk" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                    <input type="text" id="setFolderMasuk" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Folder ID Surat Keluar</label>
-                                    <input type="text" id="setFolderKeluar" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                    <input type="text" id="setFolderKeluar" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Folder ID Surat SK</label>
-                                    <input type="text" id="setFolderSK" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                    <input type="text" id="setFolderSK" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Template Docs ID SKet Aktif (Tanpa Stempel)</label>
-                                    <input type="text" id="setTemplateSKet" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                    <input type="text" id="setTemplateSKet" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-emerald-700 mb-1">Template Docs ID SKet Aktif (Ber-Stempel)</label>
-                                    <input type="text" id="setTemplateSKetStempel" class="w-full p-2 rounded-xl border-2 border-teal-300 bg-emerald-50 text-xs font-mono font-bold">
+                                    <label class="block text-[11px] font-bold text-blue-700 mb-1">Template Docs ID SKet Aktif (Ber-Stempel)</label>
+                                    <input type="text" id="setTemplateSKetStempel" class="w-full p-2 rounded-xl border border-blue-200 bg-blue-50/40 text-xs font-mono font-bold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Template Docs ID Surat Tugas</label>
-                                    <input type="text" id="setTemplateTugas" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                    <input type="text" id="setTemplateTugas" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1">Template Docs ID SPPD</label>
-                                    <input type="text" id="setTemplateSPPD" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-mono font-bold">
+                                    <input type="text" id="setTemplateSPPD" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold">
                                 </div>
                             </div>
                         </div>
@@ -666,7 +1001,7 @@
         </main>
 
         <!-- Footer Aplikasi -->
-        <footer class="bg-slate-900 border-t-2 border-slate-800 text-slate-400 py-4 px-4 text-center mt-auto">
+        <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-4 px-4 text-center mt-auto">
             <div class="max-w-7xl mx-auto space-y-1">
                 <p class="text-xs font-semibold text-slate-300">Sistem Informasi Persuratan Terpadu &copy; 2026</p>
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tight">(APLIKASI INI DIBUAT DAN DIKEMBANGKAN OLEH NUR M. IKBALILMAROM, S.Pd., M.Pd)</p>
@@ -675,46 +1010,46 @@
     </div>
 
     <!-- MODAL UPLOAD MANUAL SURAT -->
-    <div id="modalUpload" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl border-2 border-slate-300 max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between border-b-2 border-slate-200 pb-3">
+    <div id="modalUpload" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl border border-slate-100 max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 id="modalUploadTitle" class="font-extrabold text-slate-900 text-sm">Upload Berkas Surat</h3>
-                <button onclick="closeModalUpload()" class="text-slate-500 hover:text-slate-800"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeModalUpload()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
             <form id="uploadManualForm" onsubmit="handleManualUploadSubmit(event)" class="space-y-3">
                 <input type="hidden" id="uploadCategory" value="SURAT_MASUK">
                 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Nomor Surat / SK *</label>
-                    <input type="text" id="upNomorSurat" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                    <input type="text" id="upNomorSurat" required class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold">
                 </div>
                 <div id="upGroupTanggalSurat">
                     <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Surat *</label>
-                    <input type="date" id="upTanggalSurat" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                    <input type="date" id="upTanggalSurat" required class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold">
                 </div>
                 
                 <!-- INPUT TANGGAL DITERIMA SECARA MANUAL (KHUSUS SURAT MASUK) -->
                 <div id="upGroupTanggalDiterima">
                     <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Diterima *</label>
-                    <input type="date" id="upTanggalDiterima" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                    <input type="date" id="upTanggalDiterima" required class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold">
                 </div>
 
                 <div id="upGroupPengirim">
                     <label id="upPengirimLabel" class="block text-xs font-bold text-slate-700 mb-1">Pengirim / Tujuan *</label>
-                    <input type="text" id="upPengirim" class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                    <input type="text" id="upPengirim" class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Judul / Perihal Surat *</label>
-                    <input type="text" id="upJudulSurat" required class="w-full p-2 rounded-xl border-2 border-slate-300 bg-slate-50 text-xs font-bold">
+                    <input type="text" id="upJudulSurat" required class="w-full p-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Berkas File (PDF / Image) *</label>
-                    <input type="file" id="upFile" required accept="application/pdf,image/*" class="w-full text-xs text-slate-600 font-bold file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-2 file:border-teal-600 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-800 hover:file:bg-teal-100">
+                    <input type="file" id="upFile" required accept="application/pdf,image/*" class="w-full text-xs text-slate-600 font-bold file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border file:border-blue-600 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-800 hover:file:bg-blue-100">
                 </div>
 
-                <div class="pt-3 flex justify-end space-x-2 border-t border-slate-200">
-                    <button type="button" onclick="closeModalUpload()" class="px-4 py-2 border-2 border-slate-300 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100">Batal</button>
-                    <button type="submit" id="btnUploadSubmit" class="px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold shadow-md hover:bg-teal-700 flex items-center space-x-2">
+                <div class="pt-3 flex justify-end space-x-2 border-t border-slate-100">
+                    <button type="button" onclick="closeModalUpload()" class="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50">Batal</button>
+                    <button type="submit" id="btnUploadSubmit" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-md hover:bg-blue-700 flex items-center space-x-2">
                         <i id="btnUploadIcon" data-lucide="upload-cloud" class="w-4 h-4"></i>
                         <span id="btnUploadText">Upload & Simpan</span>
                     </button>
@@ -726,7 +1061,7 @@
     <!-- LOGIC SCRIPT (JAVASCRIPT) -->
     <script>
       let currentUser = null;
-      let appData = { stats: {}, settings: {}, suratMasuk: [], suratKeluar: [], suratSK: [] };
+      let appData = { stats: {}, settings: {}, suratMasuk: [], suratKeluar: [], suratSK: [], dataGuru: [] };
       const SESSION_TIMEOUT_MS = 60 * 60 * 1000;
 
       const MONTH_NAMES_ID = [
@@ -757,7 +1092,7 @@
       }
 
       async function fetchWithTimeout(resource, options = {}) {
-        const { timeout = 15000 } = options;
+        const { timeout = 30000 } = options;
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), timeout);
         try {
@@ -768,11 +1103,32 @@
             cache: "no-store"
           });
           clearTimeout(id);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
           return response;
         } catch (error) {
           clearTimeout(id);
           throw error;
         }
+      }
+
+      async function fetchBackendJSON(resource, options = {}, maxAttempts = 3) {
+        const method = String(options.method || 'GET').toUpperCase();
+        const canRetry = method === 'GET' || (method === 'POST' && String(options.body || '').includes('"action":"login"'));
+        const attempts = canRetry ? maxAttempts : 1;
+        let lastError;
+        for (let attempt = 1; attempt <= attempts; attempt++) {
+          try {
+            const res = await fetchWithTimeout(resource, options);
+            const text = await res.text();
+            if (!text || !text.trim()) throw new Error('Respons backend kosong');
+            try { return JSON.parse(text); }
+            catch (_) { throw new Error('Respons backend bukan JSON yang valid'); }
+          } catch (err) {
+            lastError = err;
+            if (attempt < attempts) await new Promise(resolve => setTimeout(resolve, 900 * attempt));
+          }
+        }
+        throw lastError || new Error('Gagal terhubung ke backend');
       }
 
       function setButtonLoading(buttonId, isLoading, loadingText = "Memproses...", originalText = "", originalIcon = "") {
@@ -830,7 +1186,7 @@
 
         if (isLoading) {
           card.classList.remove('hidden');
-          card.className = "bg-amber-500/10 border-2 border-amber-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
+          card.className = "bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
           badge.className = "w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center font-bold";
           icon.setAttribute('data-lucide', 'loader-2');
           icon.classList.add('animate-spin');
@@ -838,14 +1194,14 @@
           desc.innerText = "Mohon tunggu sebentar, sistem sedang melakukan sinkronisasi data arsip terbaru dari Google Spreadsheet.";
         } else if (isError) {
           card.classList.remove('hidden');
-          card.className = "bg-rose-500/10 border-2 border-rose-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
+          card.className = "bg-rose-500/10 border border-rose-500/20 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
           badge.className = "w-9 h-9 rounded-xl bg-rose-500/20 text-rose-600 flex items-center justify-center font-bold";
           icon.setAttribute('data-lucide', 'alert-circle');
           icon.classList.remove('animate-spin');
           title.innerText = "GAGAL MEMUAT DATA SPREADSHEET";
           desc.innerText = "Terjadi keterlambatan/kesalahan koneksi. Klik tombol 'Muat Ulang' untuk mencoba lagi.";
         } else {
-          card.className = "bg-emerald-500/10 border-2 border-emerald-500/40 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
+          card.className = "bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between shadow-sm transition-all";
           badge.className = "w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold";
           icon.setAttribute('data-lucide', 'check-circle-2');
           icon.classList.remove('animate-spin');
@@ -864,8 +1220,8 @@
         const toast = document.createElement('div');
         const isSuccess = type === 'success';
         
-        toast.className = `p-4 rounded-2xl shadow-2xl border-2 pointer-events-auto transform transition-all duration-300 flex items-center space-x-3 text-xs font-bold ${
-          isSuccess ? 'bg-emerald-600 text-white border-emerald-300' : 'bg-rose-600 text-white border-rose-300'
+        toast.className = `p-4 rounded-2xl shadow-2xl border pointer-events-auto transform transition-all duration-300 flex items-center space-x-3 text-xs font-bold ${
+          isSuccess ? 'bg-blue-600 text-white border-blue-400' : 'bg-rose-600 text-white border-rose-400'
         }`;
 
         toast.innerHTML = `
@@ -882,20 +1238,25 @@
         }, 5000);
       }
 
+      let syncInProgress = false;
+
       async function syncSpreadsheetData() {
+        if (syncInProgress) return;
+        syncInProgress = true;
         const icon = document.getElementById('syncIcon');
         if (icon) icon.classList.add('animate-spin');
         updateSyncStatusUI(true);
-        
         try {
           await loadInitialData();
           await loadSuratList();
           updateSyncStatusUI(false, false);
           showToast('Berhasil terhubung & memuat ulang data dari Google Spreadsheet!', 'success');
         } catch (err) {
+          console.error('[Persuratan] Sinkronisasi Spreadsheet gagal:', err);
           updateSyncStatusUI(false, true);
           showToast('Gagal terhubung ke Google Spreadsheet! Coba lagi dalam beberapa saat.', 'error');
         } finally {
+          syncInProgress = false;
           if (icon) icon.classList.remove('animate-spin');
         }
       }
@@ -948,11 +1309,10 @@
         showLoading('Verifikasi login...');
 
         try {
-          const res = await fetchWithTimeout(GAS_WEB_APP_URL, {
+          const result = await fetchBackendJSON(GAS_WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify({ action: 'login', payload: { username: usernameInput.value, password: passwordInput.value } })
-          });
-          const result = await res.json();
+          }, 3);
           hideLoading();
           setButtonLoading('btnLoginSubmit', false, '', 'Masuk ke Sistem', 'arrow-right');
 
@@ -986,11 +1346,11 @@
       }
 
       async function loadInitialData() {
-        const res = await fetchWithTimeout(`${GAS_WEB_APP_URL}?action=getInitialData`);
-        const result = await res.json();
+        const result = await fetchBackendJSON(`${GAS_WEB_APP_URL}?action=getInitialData`, {}, 3);
         if (result.status === 'success') {
           appData.stats = result.stats;
           appData.settings = result.settings;
+          appData.dataGuru = result.dataGuru || [];
 
           document.getElementById('statTotalMasuk').innerText = result.stats.totalSuratMasuk;
           document.getElementById('statTotalKeluar').innerText = result.stats.totalSuratKeluar;
@@ -1010,15 +1370,33 @@
           document.getElementById('setTemplateSPPD').value = result.settings.TEMPLATE_ID_SPPD || '';
 
           document.getElementById('genCustomCounter').value = result.stats.counterSuratKeluar + 1;
+          
+          populateGuruDropdowns();
           updateNumberPreview();
         } else {
           throw new Error('Gagal mengambil data awal');
         }
       }
 
+      function populateGuruDropdowns() {
+        const tugasGuruSelect = document.getElementById('tugasNamaGuru');
+        const sppdGuruSelect = document.getElementById('sppdNamaPegawai');
+
+        if (!tugasGuruSelect || !sppdGuruSelect) return;
+
+        let optionsHtml = '<option value="">-- Pilih Nama Guru / Pegawai --</option>';
+        if (appData.dataGuru && appData.dataGuru.length > 0) {
+          appData.dataGuru.forEach(guru => {
+            optionsHtml += `<option value="${guru}">${guru}</option>`;
+          });
+        }
+
+        tugasGuruSelect.innerHTML = optionsHtml;
+        sppdGuruSelect.innerHTML = optionsHtml;
+      }
+
       async function loadSuratList() {
-        const res = await fetchWithTimeout(`${GAS_WEB_APP_URL}?action=getSuratList`);
-        const result = await res.json();
+        const result = await fetchBackendJSON(`${GAS_WEB_APP_URL}?action=getSuratList`, {}, 3);
         if (result.status === 'success') {
           appData.suratMasuk = result.suratMasuk || [];
           
@@ -1046,21 +1424,21 @@
       function renderTableSuratMasuk(data) {
         const tbody = document.getElementById('tableSuratMasuk');
         if (!data.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Belum ada data surat masuk.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Belum ada data surat masuk.</td></tr>';
           return;
         }
         tbody.innerHTML = data.map(item => {
           const formattedDate = formatDateIndonesian(item['Tanggal Diterima'] || item['Tanggal Surat'] || item['Tanggal']);
           return `
-            <tr class="hover:bg-slate-100">
-              <td class="p-3 border-b border-slate-200 font-bold col-tgl">${formattedDate}</td>
-              <td class="p-3 border-b border-slate-200 font-mono font-bold text-teal-800 col-nomor">${item['Nomor Surat'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200 font-bold text-slate-800 col-pengirim">${item['Pengirim'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200">
-                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-teal-700 hover:text-teal-900 underline font-bold inline-flex items-center space-x-1"><i data-lucide="external-link" class="w-3.5 h-3.5"></i><span>Buka File</span></a>` : '-'}
+            <tr class="hover:bg-blue-50/30 transition-colors">
+              <td class="p-3.5 border-b border-slate-100 font-bold col-tgl">${formattedDate}</td>
+              <td class="p-3.5 border-b border-slate-100 font-mono font-bold text-blue-700 col-nomor">${item['Nomor Surat'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800 col-pengirim">${item['Pengirim'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100">
+                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-blue-600 hover:text-blue-800 underline font-bold inline-flex items-center space-x-1"><i data-lucide="external-link" class="w-3.5 h-3.5"></i><span>Buka File</span></a>` : '-'}
               </td>
-              <td class="p-3 border-b border-slate-200 text-center">
+              <td class="p-3.5 border-b border-slate-100 text-center">
                 ${currentUser && currentUser.role === 'Admin' ? `<button onclick="deleteRecord('SURAT_MASUK', '${item.ID}', this)" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : '-'}
               </td>
             </tr>
@@ -1072,21 +1450,21 @@
       function renderTableSuratKeluar(data) {
         const tbody = document.getElementById('tableSuratKeluar');
         if (!data.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500 font-bold">Belum ada data surat keluar.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400 font-bold">Belum ada data surat keluar.</td></tr>';
           return;
         }
         tbody.innerHTML = data.map(item => {
           const formattedDate = formatDateIndonesian(item['Tanggal Keluar'] || item['Tanggal Surat'] || item['Tanggal']);
           return `
-            <tr class="hover:bg-slate-100">
-              <td class="p-3 border-b border-slate-200 font-bold col-tgl">${formattedDate}</td>
-              <td class="p-3 border-b border-slate-200 font-mono font-bold text-indigo-800 col-nomor">${item['Nomor Surat'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200 font-bold text-slate-800 col-tujuan">${item['Tujuan/Penerima'] || item['Tujuan'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200">
-                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-indigo-700 hover:text-indigo-900 underline font-bold inline-flex items-center space-x-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>PDF Drive</span></a>` : '-'}
+            <tr class="hover:bg-blue-50/30 transition-colors">
+              <td class="p-3.5 border-b border-slate-100 font-bold col-tgl">${formattedDate}</td>
+              <td class="p-3.5 border-b border-slate-100 font-mono font-bold text-indigo-700 col-nomor">${item['Nomor Surat'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800 col-tujuan">${item['Tujuan/Penerima'] || item['Tujuan'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100">
+                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-blue-600 hover:text-blue-800 underline font-bold inline-flex items-center space-x-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>PDF Drive</span></a>` : '-'}
               </td>
-              <td class="p-3 border-b border-slate-200 text-center">
+              <td class="p-3.5 border-b border-slate-100 text-center">
                 ${currentUser && currentUser.role === 'Admin' ? `<button onclick="deleteRecord('SURAT_KELUAR', '${item.ID}', this)" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : '-'}
               </td>
             </tr>
@@ -1098,20 +1476,20 @@
       function renderTableSuratSK(data) {
         const tbody = document.getElementById('tableSuratSK');
         if (!data.length) {
-          tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 font-bold">Belum ada data Surat Keputusan (SK).</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-400 font-bold">Belum ada data Surat Keputusan (SK).</td></tr>';
           return;
         }
         tbody.innerHTML = data.map(item => {
           const formattedDate = formatDateIndonesian(item['Tanggal SK'] || item['Tanggal Keluar'] || item['Tanggal Surat'] || item['Tanggal']);
           return `
-            <tr class="hover:bg-slate-100">
-              <td class="p-3 border-b border-slate-200 font-bold col-tgl">${formattedDate}</td>
-              <td class="p-3 border-b border-slate-200 font-mono font-bold text-amber-800 col-nomor">${item['Nomor Surat'] || item['Nomor SK'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || item['Tentang'] || '-'}</td>
-              <td class="p-3 border-b border-slate-200">
-                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-amber-700 hover:text-amber-900 underline font-bold inline-flex items-center space-x-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>PDF SK</span></a>` : '-'}
+            <tr class="hover:bg-blue-50/30 transition-colors">
+              <td class="p-3.5 border-b border-slate-100 font-bold col-tgl">${formattedDate}</td>
+              <td class="p-3.5 border-b border-slate-100 font-mono font-bold text-amber-700 col-nomor">${item['Nomor Surat'] || item['Nomor SK'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100 font-semibold text-slate-900 col-judul">${item['Judul/Perihal'] || item['Perihal'] || item['Tentang'] || '-'}</td>
+              <td class="p-3.5 border-b border-slate-100">
+                ${item['Link Drive'] ? `<a href="${item['Link Drive']}" target="_blank" class="text-amber-600 hover:text-amber-800 underline font-bold inline-flex items-center space-x-1"><i data-lucide="file-text" class="w-3.5 h-3.5"></i><span>PDF SK</span></a>` : '-'}
               </td>
-              <td class="p-3 border-b border-slate-200 text-center">
+              <td class="p-3.5 border-b border-slate-100 text-center">
                 ${currentUser && currentUser.role === 'Admin' ? `<button onclick="deleteRecord('SURAT_SK', '${item.ID}', this)" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : '-'}
               </td>
             </tr>
@@ -1198,14 +1576,14 @@
 
       function switchTab(tabId) {
         document.querySelectorAll('.tab-btn').forEach(b => {
-          b.classList.remove('bg-teal-500', 'text-slate-900', 'shadow-md');
+          b.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
           b.classList.add('text-slate-300');
         });
         document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
 
         const activeBtn = document.getElementById(`tab-${tabId}`);
         if (activeBtn) {
-          activeBtn.classList.add('bg-teal-500', 'text-slate-900', 'shadow-md');
+          activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
           activeBtn.classList.remove('text-slate-300');
         }
         
@@ -1247,13 +1625,13 @@
       function selectDocType(type) {
         document.getElementById('selectedDocType').value = type;
         document.querySelectorAll('.doc-type-btn').forEach(b => {
-          b.classList.remove('border-teal-600', 'bg-teal-50');
-          b.classList.add('border-slate-300', 'bg-slate-50');
+          b.classList.remove('border-blue-600', 'bg-blue-50/50');
+          b.classList.add('border-slate-200', 'bg-slate-50');
         });
 
         const activeDocBtn = document.getElementById(`btnType${type}`);
-        activeDocBtn.classList.remove('border-slate-300', 'bg-slate-50');
-        activeDocBtn.classList.add('border-teal-600', 'bg-teal-50');
+        activeDocBtn.classList.remove('border-slate-200', 'bg-slate-50');
+        activeDocBtn.classList.add('border-blue-600', 'bg-blue-50/50');
 
         document.getElementById('fieldsSKET').classList.add('hidden');
         document.getElementById('fieldsTUGAS').classList.add('hidden');
@@ -1272,24 +1650,6 @@
         }
       }
 
-      function addSPPDRow() {
-        const tbody = document.getElementById('tbodySPPD');
-        const count = tbody.children.length + 1;
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-2 text-center font-bold">${count}</td>
-          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-pegawai" placeholder="Nama/Jabatan"></td>
-          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-maksud" placeholder="Maksud Perjalanan"></td>
-          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-tujuan" placeholder="Kota Tujuan"></td>
-          <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-lama" placeholder="3 Hari"></td>
-          <td class="p-2 text-center">
-              <button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-        lucide.createIcons();
-      }
-
       function resetDocGeneratorForm() {
         document.getElementById('genJudulSurat').value = '';
         
@@ -1301,25 +1661,21 @@
 
         document.getElementById('tugasSumberSurat').value = '';
         document.getElementById('tugasPerihal').value = '';
+        document.getElementById('tugasNomorSuratSumber').value = '';
         document.getElementById('tugasNamaGuru').value = '';
         document.getElementById('tugasJabatanGuru').value = '';
-        document.getElementById('tugasDetail').value = '';
+        document.getElementById('tugasHariTanggal').value = '';
+        document.getElementById('tugasTempat').value = '';
 
-        const tbodySPPD = document.getElementById('tbodySPPD');
-        if (tbodySPPD) {
-          tbodySPPD.innerHTML = `
-            <tr>
-                <td class="p-2 text-center font-bold">1</td>
-                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-pegawai" placeholder="Nama/Jabatan"></td>
-                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-maksud" placeholder="Maksud Perjalanan"></td>
-                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-tujuan" placeholder="Kota Tujuan"></td>
-                <td class="p-2"><input type="text" class="w-full p-1.5 border-2 border-slate-300 bg-slate-50 font-medium rounded-lg text-xs sppd-lama" placeholder="3 Hari"></td>
-                <td class="p-2 text-center">
-                    <button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                </td>
-            </tr>
-          `;
-        }
+        document.getElementById('sppdNamaPegawai').value = '';
+        document.getElementById('sppdJabatan').value = '';
+        document.getElementById('sppdMaksud').value = '';
+        document.getElementById('sppdAlatAngkut').value = '';
+        document.getElementById('sppdTempatTujuan').value = '';
+        document.getElementById('sppdAlamatTujuan').value = '';
+        document.getElementById('sppdLamaPerjalanan').value = '';
+        document.getElementById('sppdTanggalBerangkat').value = '';
+        document.getElementById('sppdTanggalTiba').value = '';
       }
 
       function submitGenerateWithStamp(useStamp) {
@@ -1373,21 +1729,22 @@
           templateDocId = appData.settings['TEMPLATE_ID_TUGAS'];
           replacements.SUMBER_SURAT = document.getElementById('tugasSumberSurat').value;
           replacements.PERIHAL = document.getElementById('tugasPerihal').value;
+          replacements.NOMOR_SURAT_SUMBER = document.getElementById('tugasNomorSuratSumber').value;
           replacements.NAMA_GURU = document.getElementById('tugasNamaGuru').value;
           replacements.JABATAN_GURU = document.getElementById('tugasJabatanGuru').value;
-          replacements.DETAIL_TUGAS = document.getElementById('tugasDetail').value;
+          replacements.HARI_TANGGAL_PENUGASAN = document.getElementById('tugasHariTanggal').value;
+          replacements.TEMPAT_PENUGASAN = document.getElementById('tugasTempat').value;
         } else if (type === 'SPPD') {
           templateDocId = appData.settings['TEMPLATE_ID_SPPD'];
-          let sppdList = [];
-          document.querySelectorAll('#tbodySPPD tr').forEach(tr => {
-            sppdList.push({
-              pegawai: tr.querySelector('.sppd-pegawai').value,
-              maksud: tr.querySelector('.sppd-maksud').value,
-              tujuan: tr.querySelector('.sppd-tujuan').value,
-              lama: tr.querySelector('.sppd-lama').value
-            });
-          });
-          replacements.DETAIL_SPPD_TABLE = JSON.stringify(sppdList);
+          replacements.NAMA_PEGAWAI = document.getElementById('sppdNamaPegawai').value;
+          replacements.JABATAN = document.getElementById('sppdJabatan').value;
+          replacements.MAKSUD_PERJALANAN = document.getElementById('sppdMaksud').value;
+          replacements.ALAT_ANGKUT = document.getElementById('sppdAlatAngkut').value;
+          replacements.TEMPAT_TUJUAN = document.getElementById('sppdTempatTujuan').value;
+          replacements.ALAMAT_TUJUAN = document.getElementById('sppdAlamatTujuan').value;
+          replacements.LAMA_PERJALANAN = document.getElementById('sppdLamaPerjalanan').value;
+          replacements.TANGGAL_BERANGKAT = document.getElementById('sppdTanggalBerangkat').value;
+          replacements.TANGGAL_TIBA = document.getElementById('sppdTanggalTiba').value;
         }
 
         try {
@@ -1402,7 +1759,7 @@
                 nomorSurat: nomorSurat,
                 jenisSurat: document.getElementById('genJenisSurat').value,
                 kodeJabatan: document.getElementById('genKodeJabatan').value,
-                tujuan: replacements.NAMA_SISWA || replacements.NAMA_GURU || 'Dinas',
+                tujuan: replacements.NAMA_SISWA || replacements.NAMA_GURU || replacements.NAMA_PEGAWAI || 'Dinas',
                 replacements: replacements,
                 operator: currentUser.nama
               }
